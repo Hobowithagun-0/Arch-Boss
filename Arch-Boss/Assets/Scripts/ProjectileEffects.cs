@@ -12,7 +12,7 @@ public class ProjectileEffects : MonoBehaviour {
     public float TimeToLive = 1f;
 
     /// <summary> Tag of owner, projectile will not interact with owner tag </summary>
-    public string OwnerTag = " ";
+    public string OwnerTag = "Placeholder";
 
     private void Update() {
         TimeToLive -= Time.deltaTime;
