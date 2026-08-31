@@ -40,8 +40,9 @@ public class player : MonoBehaviour
             GameObject attackHitbox;
             Vector3 offset = Vector3.right * 2;
             attackHitbox = Instantiate(atkHitbox, transform.position + offset,transform.rotation);
+            Collider2D boxArea = box.GetComponent<Collider2D>();
             Collider2D attackCollider = attackHitbox.GetComponent<Collider2D>();
-            Debug.Log(attackCollider.IsTouching(box.GetComponent<Collider2D>()));
+            Debug.Log(attackCollider.IsTouching(boxArea));
 
         }
 
