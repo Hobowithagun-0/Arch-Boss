@@ -17,12 +17,13 @@ public class ProjectileEffects : MonoBehaviour {
 
     /// <summary> Tag of owner, projectile will not interact with owner tag </summary>
     public string OwnerTag = "Placeholder";
+    public ProjectilePool PoolingSystem;
 
     private void Update() {
         cooldownTimer -= Time.deltaTime;
         TimeToLive -= Time.deltaTime;
         if (TimeToLive <= 0) {
-            Destroy(transform.root.gameObject); // CHANGE THIS WHEN WE USE POLLING SYSTEM
+            PoolingSystem.Release(gameObject);
         }
     }
 
@@ -33,7 +34,7 @@ public class ProjectileEffects : MonoBehaviour {
             Interact(hitObject);
             cooldownTimer = EffectCooldown;
             if (Pierce-- == 0) {
-                Destroy(transform.root.gameObject); // CHANGE THIS WHEN WE USE POLLING SYSTEM
+                PoolingSystem.Release(gameObject);
             }
         }
     }
