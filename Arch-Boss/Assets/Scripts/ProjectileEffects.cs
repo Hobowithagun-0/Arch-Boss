@@ -2,6 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class ProjectileEffects : MonoBehaviour {
+    private float cooldownTimer = 0f;
     public int Damage = 0;
 
     /// <summary> Type of dmg reduction the entity will use against this projectile. </summary>
@@ -11,20 +12,26 @@ public class ProjectileEffects : MonoBehaviour {
     public int Pierce = 0;
     public float TimeToLive = 1f;
 
+    /// <summary> Time before the same projectile can affect the same entity again </summary>
+    public float EffectCooldown = 0.5f;
+
     /// <summary> Tag of owner, projectile will not interact with owner tag </summary>
     public string OwnerTag = "Placeholder";
 
     private void Update() {
+        cooldownTimer -= Time.deltaTime;
         TimeToLive -= Time.deltaTime;
         if (TimeToLive <= 0) {
             Destroy(transform.root.gameObject); // CHANGE THIS WHEN WE USE POLLING SYSTEM
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collider) {
+    private void OnTriggerStay2D(Collider2D collider) {
         GameObject hitObject = collider.gameObject;
-        if (hitObject.layer == LayerMask.NameToLayer("Entity") && !hitObject.CompareTag(OwnerTag)) {
+        Debug.Log("hi");
+        if (hitObject.layer == LayerMask.NameToLayer("Entity") && !hitObject.CompareTag(OwnerTag) && cooldownTimer <= 0) {
             Interact(hitObject);
+            cooldownTimer = EffectCooldown;
             if (Pierce-- == 0) {
                 Destroy(transform.root.gameObject); // CHANGE THIS WHEN WE USE POLLING SYSTEM
             }
