@@ -68,7 +68,6 @@ public class JohnBoss : BossBehaviour
         }
         if (attackPressed)
         {
-            Debug.Log("Attacking");
             Attack();
         }
     }
@@ -98,7 +97,7 @@ public class JohnBoss : BossBehaviour
         if (GroundChecker.isGrounded && jumpPressed)
         {
             body.linearVelocityY = jumpVelocity;
-
+            jumpPressed = false;
         }
     }
 }
