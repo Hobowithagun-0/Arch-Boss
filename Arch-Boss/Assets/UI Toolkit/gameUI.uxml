@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/gameUI.uss?fileID=7433441132597879392&amp;guid=693b92c49947fae42b2908ebf7f88ec6&amp;type=3#gameUI"/>
+    <ui:ProgressBar value="22" title="Health:" name="healthbar"/>
+</ui:UXML>
