@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class attackHitbox : MonoBehaviour
 {
@@ -18,5 +20,12 @@ public class attackHitbox : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        List<Collider2D> results = new List<Collider2D>();
+        ContactFilter2D contactFil = new ContactFilter2D();
+        contactFil.layerMask = LayerMask.GetMask("Default");
+        hitbox.Overlap(contactFil,results);
+
+        Debug.Log(results[0]);
     }
 }
+
