@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Health : MonoBehaviour {
     private int health;
+    private int lastDmgValue = 0;
+    private float lastDmgDelta = 0f;
     private readonly float[] resistances = new float[System.Enum.GetValues(typeof(DamageType)).Length]; 
 
     /// <summary> Runs these functions everytime health is changed (for UI mainly) </summary>
@@ -14,9 +16,16 @@ public class Health : MonoBehaviour {
             OnHealthChanged?.Invoke(health);
         }
     }
+    /// <summary> Time before an attack can hit again. <br/> 
+    /// If a stronger attack hits during this window, the difference in damage is applied instanly </summary>
+    public float InvulnerableDuration = 0.5f;
 
     private void Start() {
         Value = MaxHealth;
+    }
+
+    private void Update() {
+        lastDmgDelta += Time.deltaTime;
     }
 
     [ContextMenu("Check hp")]
@@ -25,7 +34,17 @@ public class Health : MonoBehaviour {
     }
     /// <summary> Decreases health based on damage and damage multipliers. </summary>
     public void TakeDamage(int dmg, DamageType type) {
-        Value -= Mathf.RoundToInt(dmg * (1 - resistances[(int)type]));        
+        int damage = Mathf.RoundToInt(dmg * (1 - resistances[(int)type]));
+        if (lastDmgDelta >= InvulnerableDuration) {
+            Value -= damage;
+            lastDmgValue = damage;
+            lastDmgDelta = 0f;
+        } else if (lastDmgValue < damage) {
+            Value -= (damage - lastDmgValue);
+            lastDmgValue = damage;
+            lastDmgDelta = 0f;
+        }
+              
     }
 
     /// <summary> Increases health by hp, capped at max health. <br/>
