@@ -18,6 +18,9 @@ public class ProjectilePool : MonoBehaviour {
             defaultCapacity: Size,
             maxSize: MaxSize
         );
+        for (int i = 0; i < Size; i++) { // creates Size number of projectiles in the pool
+            pool.Release(CreateItem());
+        }
     }
 
     // Creates a new pooled GameObject the first time (and whenever the pool needs more).

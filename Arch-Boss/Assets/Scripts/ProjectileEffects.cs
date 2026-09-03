@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class ProjectileEffects : MonoBehaviour {
+    private int pierce;
+    private float ttl;
     public int Damage = 0;
 
     /// <summary> Type of dmg reduction the entity will use against this projectile. </summary>
@@ -14,25 +17,35 @@ public class ProjectileEffects : MonoBehaviour {
     public string OwnerTag = "Placeholder";
     public ProjectilePool PoolingSystem;
 
+    private void OnEnable() { // stores initial values for reset
+        pierce = Pierce;
+        ttl = TimeToLive;
+    }
     private void Update() {
         TimeToLive -= Time.deltaTime;
         if (TimeToLive <= 0) {
-            PoolingSystem.Release(gameObject);
+            returnToPool();
         }
     }
 
     private void OnTriggerStay2D(Collider2D collider) {
         GameObject hitObject = collider.gameObject;
-        if (hitObject.layer == LayerMask.NameToLayer("Entity") && !hitObject.CompareTag(OwnerTag)) {
-            Interact(hitObject);
+        HurtboxCode hurtbox = hitObject.GetComponent<HurtboxCode>();
+        if (hurtbox && !hitObject.CompareTag(OwnerTag)) {
+            Interact(hurtbox);
             if (Pierce-- == 0) {
-                PoolingSystem.Release(gameObject);
+                returnToPool();
             }
         }
     }
 
-    protected virtual void Interact(GameObject target) {
-        Health hp = target.GetComponent<Health>();
-        hp.TakeDamage(Damage, Type);
+    private void returnToPool() {
+        Pierce = pierce;
+        TimeToLive = ttl;
+        PoolingSystem.Release(gameObject);
     }
+    protected virtual void Interact(HurtboxCode target) {
+        target.health.TakeDamage(Damage, Type);
+    }
+
 }

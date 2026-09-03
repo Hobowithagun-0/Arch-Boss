@@ -56,7 +56,7 @@ public class Health : MonoBehaviour {
 
     /// <summary> Sets resistance of DamageType to value. Ideally values are between 0 and 1 (unenforced) </summary>
 
-    public void SetResistance(int value, DamageType type) {
+    public void SetResistance(float value, DamageType type) {
         resistances[(int)type] = value;
     }
 }
