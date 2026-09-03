@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
@@ -29,8 +30,9 @@ public class ProjectileEffects : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collider) {
         GameObject hitObject = collider.gameObject;
-        if (hitObject.GetComponent<HurtboxCode>() && !hitObject.CompareTag(OwnerTag)) {
-            Interact(hitObject);
+        HurtboxCode hurtbox = hitObject.GetComponent<HurtboxCode>();
+        if (hurtbox && !hitObject.CompareTag(OwnerTag)) {
+            Interact(hurtbox);
             if (Pierce-- == 0) {
                 returnToPool();
             }
@@ -42,9 +44,8 @@ public class ProjectileEffects : MonoBehaviour {
         TimeToLive = ttl;
         PoolingSystem.Release(gameObject);
     }
-    protected virtual void Interact(GameObject target) {
-        Health hp = target.GetComponent<Health>();
-        hp.TakeDamage(Damage, Type);
+    protected virtual void Interact(HurtboxCode target) {
+        target.health.TakeDamage(Damage, Type);
     }
 
 }
