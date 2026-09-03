@@ -1,31 +1,16 @@
 using UnityEngine;
 
-public class HitboxCode : MonoBehaviour
-{
+public class HitboxCode : MonoBehaviour {
     [SerializeField] private string[] TagToIgnore;
     [SerializeField] private int damage = 10;
+    [SerializeField] private int pierce = 0; //number of extra hurtboxes it can hit before hiding. Negative for infinite
     [SerializeField] private DamageType damageType;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    private void OnTriggerStay2D(Collider2D collision) {
         //If there are no Tag to Ignore
-        if(TagToIgnore != null)
-        {
-            foreach (string layer in TagToIgnore)
-            {
+        if (TagToIgnore != null) {
+            foreach (string tag in TagToIgnore) {
                 //If the object is the same Tag, return;
-                if(collision.transform.root.CompareTag(tag))
-                {
+                if (collision.transform.root.CompareTag(tag)) {
                     return;
                 }
             }
@@ -34,20 +19,19 @@ public class HitboxCode : MonoBehaviour
         //If the code goes past this point, then it means it is a different Tag
         HurtboxCode hurtbox = collision.GetComponent<HurtboxCode>();
 
-        //if hurtbox has something, run this bit of code
-        if(hurtbox != null)
-        {
+        //if that gameobject has a hurtbox, run this bit of code
+        if (hurtbox != null) {
             hurtbox.health.TakeDamage(damage, damageType);
-            Hide();
+            if (pierce-- == 0) {
+                Hide();
+            }
         }
     }
-    public void Hide()
-    {
+    public void Hide() {
         gameObject.SetActive(false);
     }
 
-    public void Show()
-    {
+    public void Show() {
         gameObject.SetActive(true);
     }
 }
