@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Placeholder
+  - SlimeBoss
   layers:
   - Default
   - TransparentFX
