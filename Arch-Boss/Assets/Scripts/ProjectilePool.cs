@@ -19,7 +19,7 @@ public class ProjectilePool : MonoBehaviour {
             maxSize: MaxSize
         );
         for (int i = 0; i < Size; i++) { // creates Size number of projectiles in the pool
-            pool.Release(pool.Get());
+            pool.Release(CreateItem());
         }
     }
 
