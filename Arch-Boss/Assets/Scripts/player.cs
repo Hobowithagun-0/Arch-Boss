@@ -1,49 +1,78 @@
+using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class player : MonoBehaviour
 {
-    public float movementSpeed;
-    public float jumpForce;
-    public GameObject atkHitbox;
 
-    public GameObject box;
+    enum PlayerStates
+    {
+        
+    }
+    // Movement
+    public float movementSpeed = 2;
+    public float jumpForce = 5;
+    public GroundChecker GroundChecker;
+
+    // Attack Hitbox
+    public HitboxCode atkHitbox;
+
+    public GameObject target;
+
+    // Declare variables
     Rigidbody2D rigidbody;
     Collider2D collider;
-    InputAction moveAction;
-    InputAction jumpAction;
-    InputAction attackAction;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
-        moveAction = InputSystem.actions.FindAction("MoveX");
-        jumpAction = InputSystem.actions.FindAction("Jump");
-        attackAction = InputSystem.actions.FindAction("Attack");
 
-    }
+    } 
 
     // Update is called once per frame
     void Update()
     {
-        rigidbody.linearVelocityX = moveAction.ReadValue<float>() * movementSpeed;
+        float playerTargetDistanceX = target.transform.position.x - transform.position.x;
+        float playerTargetDistanceY = target.transform.position.y - transform.position.y;
 
-        if (jumpAction.WasPressedThisFrame())
+        // Flip Player Object
+        FlipPlayer(playerTargetDistanceX);
+
+        // Player Movement AI
+        if (Mathf.Abs(playerTargetDistanceX) > 2)
         {
-            rigidbody.AddForceY(jumpForce);
+            MoveCloser(playerTargetDistanceX);
+        }
+        else
+        {
+            if (playerTargetDistanceY > 3 && GroundChecker.isGrounded) // currently jumping many times before isGrounded is false
+            {
+                rigidbody.linearVelocityY = jumpForce;
+            }
         }
 
-        if (attackAction.WasPressedThisFrame() && rigidbody)
+    }
+
+    private String movingDirection;
+    void MoveCloser(float distance)
+    {
+        if (distance > 0)
         {
-            GameObject attackHitbox;
-            Vector3 offset = Vector3.right * 2;
-            attackHitbox = Instantiate(atkHitbox, transform.position + offset,transform.rotation);
-            Collider2D boxArea = box.GetComponent<Collider2D>();
-            Collider2D attackCollider = attackHitbox.GetComponent<Collider2D>();
-
+            rigidbody.linearVelocityX = movementSpeed;
         }
+        else if (distance < 0)
+        {
+            rigidbody.linearVelocityX = -movementSpeed;
+        }
+        
+    }
 
+    void FlipPlayer(float playerTargetDistanceX)
+    {
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Sign(playerTargetDistanceX) * Mathf.Abs(scale.x);
+        transform.localScale = scale;
     }
 }
