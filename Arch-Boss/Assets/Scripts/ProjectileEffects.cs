@@ -29,7 +29,7 @@ public class ProjectileEffects : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collider) {
         GameObject hitObject = collider.gameObject;
-        if (hitObject.layer == LayerMask.NameToLayer("Entity") && !hitObject.CompareTag(OwnerTag)) {
+        if (hitObject.GetComponent<HurtboxCode>() && !hitObject.CompareTag(OwnerTag)) {
             Interact(hitObject);
             if (Pierce-- == 0) {
                 returnToPool();
