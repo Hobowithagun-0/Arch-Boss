@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class player : MonoBehaviour
 {
@@ -38,8 +37,11 @@ public class player : MonoBehaviour
         float playerTargetDistanceX = target.transform.position.x - transform.position.x;
         float playerTargetDistanceY = target.transform.position.y - transform.position.y;
 
-        //Player Movement AI
-        if (Math.Abs(playerTargetDistanceX) > 1)
+        // Flip Player Object
+        FlipPlayer(playerTargetDistanceX);
+
+        // Player Movement AI
+        if (Mathf.Abs(playerTargetDistanceX) > 2)
         {
             MoveCloser(playerTargetDistanceX);
         }
@@ -65,5 +67,12 @@ public class player : MonoBehaviour
             rigidbody.linearVelocityX = -movementSpeed;
         }
         
+    }
+
+    void FlipPlayer(float playerTargetDistanceX)
+    {
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Sign(playerTargetDistanceX) * Mathf.Abs(scale.x);
+        transform.localScale = scale;
     }
 }
