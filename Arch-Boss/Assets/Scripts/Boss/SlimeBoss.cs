@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,11 +10,13 @@ public class SlimeBoss : MonoBehaviour {
     private Rigidbody2D body;
     private InputAction jump;
     private InputAction move;
+    private InputAction special;
     private ContactFilter2D groundFilter;
     private ProjectilePool projPool;
     private Vector2 previousVelo;
     private bool jumped = false;
     private float jumpChargeTime = 0f;
+    private float teleportChargeTime = 0f;
     public float MaxJumpChargeTime = 1f;
     public float ChargeMult = 1f;
     public float JumpHeight = 4f;
@@ -22,12 +25,14 @@ public class SlimeBoss : MonoBehaviour {
     public float slamYdamp = 2f;
     public float slamYmult = 1f;
     public float slamYmin = 1f;
+    public float teleportTime = 1f;
     private void Start() {
         body = GetComponent<Rigidbody2D>();
         projPool = GetComponent<ProjectilePool>();
 
         jump = InputSystem.actions.FindAction("Jump", true);
         move = InputSystem.actions.FindAction("MoveX", true);
+        special = InputSystem.actions.FindAction("Special", true);
 
         groundFilter = new ContactFilter2D();
 
@@ -39,12 +44,23 @@ public class SlimeBoss : MonoBehaviour {
     }
 
     private void Update() {
+        // jump charger
         if (jump.IsPressed() && body.IsTouching(groundFilter)) {
             jumpChargeTime += Time.deltaTime;
-        } else if (jump.WasReleasedThisFrame() && body.IsTouching(groundFilter)) {
-            Jump();
         } else {
+            if (jump.WasReleasedThisFrame() && body.IsTouching(groundFilter)) {
+                Jump();
+            }
             jumpChargeTime = 0f;
+        }
+        // teleport charger
+        if (special.IsPressed()) {
+            teleportChargeTime += Time.deltaTime;
+        } else {
+            if (special.WasReleasedThisFrame() && teleportChargeTime >= teleportTime) {
+                Teleport();
+            }
+            teleportChargeTime = 0f;
         }
     }
 
@@ -87,5 +103,13 @@ public class SlimeBoss : MonoBehaviour {
             offsetMult++;
             yVelo += slamYdamp;
         }
+    }
+    private void Teleport() {
+        Vector3 tpTarget = Camera.main.ScreenToWorldPoint(Pointer.current.position.ReadValue()) + Vector3.back * -10f;
+        if (Physics2D.OverlapBox(tpTarget, transform.localScale, 0f, LayerMask.GetMask("Ground"))) {
+            return; // exits if it would tp into the ground
+        }
+        transform.position = tpTarget;
+        body.linearVelocity = Vector2.zero;
     }
 }
