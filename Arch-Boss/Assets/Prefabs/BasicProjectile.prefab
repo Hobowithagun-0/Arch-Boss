@@ -184,5 +184,5 @@ MonoBehaviour:
   Type: 0
   Pierce: -1
   TimeToLive: 30
-  EffectCooldown: 0.5
   OwnerTag: Placeholder
+  PoolingSystem: {fileID: 0}

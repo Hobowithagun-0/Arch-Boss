@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +12,7 @@ public class SlimeBoss : MonoBehaviour {
     private InputAction jump;
     private InputAction move;
     private InputAction special;
+    private WaitForSeconds slamDelay;
     private ContactFilter2D groundFilter;
     private ProjectilePool projPool;
     private Vector2 previousVelo;
@@ -25,6 +27,7 @@ public class SlimeBoss : MonoBehaviour {
     public float SlamYdamp = 2f;
     public float SlamYmult = 1f;
     public float SlamYmin = 1f;
+    public float SlamDelay = 0.1f;
     public float TeleportTime = 1f;
     private void Start() {
         body = GetComponent<Rigidbody2D>();
@@ -33,6 +36,8 @@ public class SlimeBoss : MonoBehaviour {
         jump = InputSystem.actions.FindAction("Jump", true);
         move = InputSystem.actions.FindAction("MoveX", true);
         special = InputSystem.actions.FindAction("Special", true);
+
+        slamDelay = new WaitForSeconds(SlamDelay);
 
         groundFilter = new ContactFilter2D();
 
@@ -78,7 +83,7 @@ public class SlimeBoss : MonoBehaviour {
         // ground slam attack
         if (body.IsTouching(groundFilter) && previousVelo.y < -0.1f && jumped) {
             jumped = false;
-            Slam(previousVelo.y);
+            StartCoroutine(Slam(previousVelo.y));
         }
         previousVelo = body.linearVelocity;
     }
@@ -88,20 +93,22 @@ public class SlimeBoss : MonoBehaviour {
         body.linearVelocityY = JumpHeight * jumpMult;
         jumped = true;
     }
-    private void Slam(float yVelo) {
+    private IEnumerator Slam(float yVelo) {
         Debug.Log(yVelo);
         yVelo += SlamYmin;
         float offsetMult = 1.1f;
+        Vector3 slamOrigin = gameObject.transform.position + Vector3.down;
         while (yVelo < 0f) {
             foreach (float direction in directions) {
             GameObject slamProj = projPool.Get();
-            slamProj.transform.position = gameObject.transform.position + Vector3.down + Vector3.right * direction * offsetMult;
+            slamProj.transform.position = slamOrigin + Vector3.right * direction * offsetMult;
             slamProj.GetComponent<Rigidbody2D>().linearVelocityY = -yVelo * SlamYmult;
             slamProj.GetComponent<ProjectileEffects>().PoolingSystem = projPool;
             slamProj.GetComponent<ProjectileEffects>().OwnerTag = gameObject.tag;
             }
             offsetMult++;
             yVelo += SlamYdamp;
+            yield return slamDelay;
         }
     }
     private void Teleport() {
