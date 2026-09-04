@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
@@ -24,7 +23,7 @@ public class ProjectileEffects : MonoBehaviour {
     private void Update() {
         TimeToLive -= Time.deltaTime;
         if (TimeToLive <= 0) {
-            returnToPool();
+            ReturnToPool();
         }
     }
 
@@ -34,18 +33,18 @@ public class ProjectileEffects : MonoBehaviour {
         if (hurtbox && !hitObject.CompareTag(OwnerTag)) {
             Interact(hurtbox);
             if (Pierce-- == 0) {
-                returnToPool();
+                ReturnToPool();
             }
         }
     }
 
-    private void returnToPool() {
+    private void ReturnToPool() {
         Pierce = pierce;
         TimeToLive = ttl;
         PoolingSystem.Release(gameObject);
     }
     protected virtual void Interact(HurtboxCode target) {
-        target.health.TakeDamage(Damage, Type);
+        target.Health.TakeDamage(Damage, Type);
     }
 
 }

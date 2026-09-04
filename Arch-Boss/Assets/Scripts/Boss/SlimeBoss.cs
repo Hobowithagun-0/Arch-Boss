@@ -22,10 +22,10 @@ public class SlimeBoss : MonoBehaviour {
     public float JumpHeight = 4f;
     public float FastFallMult = 1f;
     public float MoveSpeed = 1f;
-    public float slamYdamp = 2f;
-    public float slamYmult = 1f;
-    public float slamYmin = 1f;
-    public float teleportTime = 1f;
+    public float SlamYdamp = 2f;
+    public float SlamYmult = 1f;
+    public float SlamYmin = 1f;
+    public float TeleportTime = 1f;
     private void Start() {
         body = GetComponent<Rigidbody2D>();
         projPool = GetComponent<ProjectilePool>();
@@ -57,7 +57,7 @@ public class SlimeBoss : MonoBehaviour {
         if (special.IsPressed()) {
             teleportChargeTime += Time.deltaTime;
         } else {
-            if (special.WasReleasedThisFrame() && teleportChargeTime >= teleportTime) {
+            if (special.WasReleasedThisFrame() && teleportChargeTime >= TeleportTime) {
                 Teleport();
             }
             teleportChargeTime = 0f;
@@ -90,18 +90,18 @@ public class SlimeBoss : MonoBehaviour {
     }
     private void Slam(float yVelo) {
         Debug.Log(yVelo);
-        yVelo += slamYmin;
+        yVelo += SlamYmin;
         float offsetMult = 1.1f;
         while (yVelo < 0f) {
             foreach (float direction in directions) {
             GameObject slamProj = projPool.Get();
             slamProj.transform.position = gameObject.transform.position + Vector3.down + Vector3.right * direction * offsetMult;
-            slamProj.GetComponent<Rigidbody2D>().linearVelocityY = -yVelo * slamYmult;
+            slamProj.GetComponent<Rigidbody2D>().linearVelocityY = -yVelo * SlamYmult;
             slamProj.GetComponent<ProjectileEffects>().PoolingSystem = projPool;
             slamProj.GetComponent<ProjectileEffects>().OwnerTag = gameObject.tag;
             }
             offsetMult++;
-            yVelo += slamYdamp;
+            yVelo += SlamYdamp;
         }
     }
     private void Teleport() {

@@ -1,33 +1,22 @@
 using UnityEngine;
 
-public class GroundChecker : MonoBehaviour
-{
-    public Vector2 groundCheckSize = new Vector2(2.0f, 2.0f);
-    public LayerMask groundLayer;
+public class GroundChecker : MonoBehaviour {
+    public Vector2 GroundCheckSize = new Vector2(2.0f, 2.0f);
+    public LayerMask GroundLayer;
 
-    public bool isGrounded = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public bool IsGrounded = false;
 
     // Update is called once per frame
-    void Update()
-    {
-        Collider2D collider = Physics2D.OverlapBox(transform.position, groundCheckSize, 0f, groundLayer);
-        isGrounded = (collider != null);
+    void Update() {
+        Collider2D collider = Physics2D.OverlapBox(transform.position, GroundCheckSize, 0f, GroundLayer);
+        IsGrounded = (collider != null);
     }
-    private void OnDrawGizmos()
-    {
-        if (isGrounded)
-        {
+    private void OnDrawGizmos() {
+        if (IsGrounded) {
             Gizmos.color = Color.green;
-        }
-        else
-        {
+        } else {
             Gizmos.color = Color.red;
         }
-        Gizmos.DrawCube(transform.position, groundCheckSize);
+        Gizmos.DrawCube(transform.position, GroundCheckSize);
     }
 }

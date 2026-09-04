@@ -47,8 +47,8 @@ public class ProjectilePool : MonoBehaviour {
     }
 
     /// <summary> Activates a projectile and returns it. Creates new one if none in pool </summary>
-    public GameObject Get() { 
-        return pool.Get(); 
+    public GameObject Get() {
+        return pool.Get();
     }
 
     /// <summary> Returns the projectile to the pool </summary>
