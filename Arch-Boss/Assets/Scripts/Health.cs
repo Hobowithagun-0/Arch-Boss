@@ -4,14 +4,19 @@ public class Health : MonoBehaviour {
     private int health;
     private int lastDmgValue = 0;
     private float lastDmgDelta = 0f;
-    private readonly float[] resistances = new float[System.Enum.GetValues(typeof(DamageType)).Length]; 
+    private readonly float[] resistances = new float[System.Enum.GetValues(typeof(DamageType)).Length];
 
     /// <summary> Runs these functions everytime health is changed (for UI mainly) </summary>
     public event System.Action<int> OnHealthChanged;
+    /// <summary> Runs these functions when health drops below 1 </summary>
+    public event System.Action OnDeath;
     public int MaxHealth = 100;
     public int Value {
         get => health;
         private set {
+            if (value < 1 && health > 0) {
+                OnDeath?.Invoke();
+            }
             health = value;
             OnHealthChanged?.Invoke(health);
         }
@@ -44,7 +49,7 @@ public class Health : MonoBehaviour {
             lastDmgValue = damage;
             lastDmgDelta = 0f;
         }
-              
+
     }
 
     /// <summary> Increases health by hp, capped at max health. <br/>

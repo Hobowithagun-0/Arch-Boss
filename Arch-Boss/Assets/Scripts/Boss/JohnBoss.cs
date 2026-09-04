@@ -2,15 +2,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class JohnBoss : BossBehaviour
-{
-    
+public class JohnBoss : BossBehaviour {
+
     private Rigidbody2D body;
     public GroundChecker GroundChecker;
 
     [Header("Movement Stuff")]
-    public float moveSpeed = 5.0f;
-    public float jumpVelocity = 4.0f;
+    public float MoveSpeed = 5.0f;
+    public float JumpVelocity = 4.0f;
 
     /// <summary>
     /// JUMPING RELATED INPUTS
@@ -27,76 +26,64 @@ public class JohnBoss : BossBehaviour
     /// ATTACK HITBOXES
     /// </summary>
     [Header("Attack HITBOX Stuff")]
-    public HitboxCode attackHitBox;
+    public HitboxCode AttackHitBox;
 
 
     /// <summary>
     /// NORMAL ATTACK TIMINGS
     /// </summary>
     [Header("Attack Timings Stuff")]
-    public float windUpTiming = 0.2f;
-    public float attackTiming = 0.6f;
+    public float WindUpTiming = 0.2f;
+    public float AttackTiming = 0.6f;
     private float attackTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    void Start() {
         body = GetComponent<Rigidbody2D>();
-        attackHitBox.Hide();
+        AttackHitBox.Hide();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
 
-        if (moveInput.x != 0)
-        {
+        if (moveInput.x != 0) {
             Vector3 scale = transform.localScale;
             scale.x = Mathf.Sign(moveInput.x) * Mathf.Abs(scale.x);
             transform.localScale = scale;
         }
 
-        if (InputSystem.actions["Jump"].WasPressedThisFrame())
-        {
+        if (InputSystem.actions["Jump"].WasPressedThisFrame()) {
             jumpPressed = true;
         }
 
-        if (InputSystem.actions["Attack"].WasPressedThisFrame())
-        {
+        if (InputSystem.actions["Attack"].WasPressedThisFrame()) {
             attackPressed = true;
         }
-        if (attackPressed)
-        {
+        if (attackPressed) {
             Attack();
         }
     }
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
         Move(moveInput);
-      
+
     }
-    public override void Attack()
-    {
+    public override void Attack() {
         attackTimer += Time.deltaTime;
-        if (attackTimer >= windUpTiming && attackTimer < attackTiming) 
-        {
-            attackHitBox.Show();
+        if (attackTimer >= WindUpTiming && attackTimer < AttackTiming) {
+            AttackHitBox.Show();
         }
-        if(attackTimer>= attackTiming)
-        {
-            attackHitBox.Hide();
+        if (attackTimer >= AttackTiming) {
+            AttackHitBox.Hide();
             attackTimer = 0;
-            attackPressed = false; 
+            attackPressed = false;
 
         }
     }
-    public override void Move(Vector2 moveInput)
-    {
-        body.linearVelocityX = moveInput.x * moveSpeed;
-        if (GroundChecker.isGrounded && jumpPressed)
-        {
-            body.linearVelocityY = jumpVelocity;
+    public override void Move(Vector2 moveInput) {
+        body.linearVelocityX = moveInput.x * MoveSpeed;
+        if (GroundChecker.IsGrounded && jumpPressed) {
+            body.linearVelocityY = JumpVelocity;
             jumpPressed = false;
         }
     }

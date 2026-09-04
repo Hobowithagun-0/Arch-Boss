@@ -1,76 +1,63 @@
 using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class player : MonoBehaviour
-{
+public class Player : MonoBehaviour {
 
-    enum PlayerStates
-    {
-        
+    enum PlayerStates {
+
     }
     // Movement
-    public float movementSpeed = 2;
-    public float jumpForce = 5;
+    public float MovementSpeed = 2;
+    public float JumpForce = 5;
     public GroundChecker GroundChecker;
 
     // Attack Hitbox
-    public HitboxCode atkHitbox;
+    public HitboxCode AtkHitbox;
 
-    public GameObject target;
+    public GameObject Target;
 
     // Declare variables
-    Rigidbody2D rigidbody;
-    Collider2D collider;
+    private Rigidbody2D rigidbody;
+    private Collider2D collider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    void Start() {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
 
-    } 
+    }
 
     // Update is called once per frame
-    void Update()
-    {
-        float playerTargetDistanceX = target.transform.position.x - transform.position.x;
-        float playerTargetDistanceY = target.transform.position.y - transform.position.y;
+    void Update() {
+        float playerTargetDistanceX = Target.transform.position.x - transform.position.x;
+        float playerTargetDistanceY = Target.transform.position.y - transform.position.y;
 
         // Flip Player Object
         FlipPlayer(playerTargetDistanceX);
 
         // Player Movement AI
-        if (Mathf.Abs(playerTargetDistanceX) > 2)
-        {
+        if (Mathf.Abs(playerTargetDistanceX) > 2) {
             MoveCloser(playerTargetDistanceX);
-        }
-        else
-        {
-            if (playerTargetDistanceY > 3 && GroundChecker.isGrounded) // currently jumping many times before isGrounded is false
+        } else {
+            if (playerTargetDistanceY > 3 && GroundChecker.IsGrounded) // currently jumping many times before isGrounded is false
             {
-                rigidbody.linearVelocityY = jumpForce;
+                rigidbody.linearVelocityY = JumpForce;
             }
         }
 
     }
 
     private String movingDirection;
-    void MoveCloser(float distance)
-    {
-        if (distance > 0)
-        {
-            rigidbody.linearVelocityX = movementSpeed;
+    void MoveCloser(float distance) {
+        if (distance > 0) {
+            rigidbody.linearVelocityX = MovementSpeed;
+        } else if (distance < 0) {
+            rigidbody.linearVelocityX = -MovementSpeed;
         }
-        else if (distance < 0)
-        {
-            rigidbody.linearVelocityX = -movementSpeed;
-        }
-        
+
     }
 
-    void FlipPlayer(float playerTargetDistanceX)
-    {
+    void FlipPlayer(float playerTargetDistanceX) {
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Sign(playerTargetDistanceX) * Mathf.Abs(scale.x);
         transform.localScale = scale;
