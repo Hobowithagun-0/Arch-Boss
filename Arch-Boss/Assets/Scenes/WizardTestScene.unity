@@ -2314,6 +2314,7 @@ MonoBehaviour:
   GroundChecker: {fileID: 1499548234}
   AtkHitbox: {fileID: 0}
   Target: {fileID: 672739735}
+  health: {fileID: 2039735652}
 --- !u!212 &2039735648
 SpriteRenderer:
   serializedVersion: 3
