@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(ProjectilePool))]
 public class SlimeBoss : MonoBehaviour {
     private readonly float[] directions = { -1f, 1f };
+    private Vector3 iniScale;
     private Rigidbody2D body;
     private InputAction jump;
     private InputAction move;
@@ -28,9 +29,11 @@ public class SlimeBoss : MonoBehaviour {
     public float SlamYmin = 1f;
     public float SlamDelay = 0.1f;
     public float TeleportTime = 1f;
+    public float TeleportStun = 1f;
     private void Start() {
         body = GetComponent<Rigidbody2D>();
         projPool = GetComponent<ProjectilePool>();
+        iniScale = transform.localScale;
 
         jump = InputSystem.actions.FindAction("Jump", true);
         move = InputSystem.actions.FindAction("MoveX", true);
@@ -48,6 +51,10 @@ public class SlimeBoss : MonoBehaviour {
     }
 
     private void Update() {
+        // Block all actions just after teleported
+        if (transform.localScale != iniScale) {
+            return;
+        }
         // jump charger
         if (jump.IsPressed() && body.IsTouching(groundFilter)) {
             jumpChargeTime += Time.deltaTime;
@@ -69,6 +76,18 @@ public class SlimeBoss : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        // Block all actions just after teleported
+        float curScale = transform.localScale.x;
+        float targetScale = iniScale.x;
+        if (curScale < targetScale) {
+            body.simulated = false;
+            transform.localScale = iniScale * Mathf.MoveTowards(curScale, targetScale,
+                targetScale * Time.deltaTime / TeleportStun);
+            if (iniScale == transform.localScale) {
+                body.simulated = true;
+            }
+            return;
+        }
         // fast fall
         if (body.linearVelocityY < 0f) {
             body.linearVelocityY *= FastFallMult;
@@ -116,6 +135,7 @@ public class SlimeBoss : MonoBehaviour {
             return; // exits if it would tp into the ground
         }
         transform.position = tpTarget;
+        transform.localScale = Vector3.zero;
         body.linearVelocity = Vector2.zero;
     }
 }
