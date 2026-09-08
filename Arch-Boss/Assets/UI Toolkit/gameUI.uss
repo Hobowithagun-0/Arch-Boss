@@ -6,3 +6,12 @@
 .unity-progress-bar__background {
 	background-color: rgb(255, 0, 0);
 }
+
+.unity-progress-bar__container {
+	max-height: 100%;
+	height: 100%;
+}
+
+.unity-progress-bar__title-container {
+	scale: 2;
+}
