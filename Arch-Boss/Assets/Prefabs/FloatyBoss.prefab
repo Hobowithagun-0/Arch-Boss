@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1642195919307573751}
   m_Layer: 6
   m_Name: FloatyBoss
-  m_TagString: FloatyBoss
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 2212443443885733797}
   m_Layer: 8
   m_Name: Hurtbox
-  m_TagString: FloatyBoss
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 7169296751632449311}
   m_Layer: 8
   m_Name: Hitbox
-  m_TagString: FloatyBoss
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
