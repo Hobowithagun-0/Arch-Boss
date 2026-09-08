@@ -30,7 +30,7 @@ public class ProjectileEffects : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collider) {
         GameObject hitObject = collider.gameObject;
         HurtboxCode hurtbox = hitObject.GetComponent<HurtboxCode>();
-        if (hurtbox && !hitObject.CompareTag(OwnerTag)) {
+        if (hurtbox && !hitObject.CompareTag(OwnerTag)) { 
             Interact(hurtbox);
             if (Pierce-- == 0) {
                 ReturnToPool();
@@ -38,7 +38,7 @@ public class ProjectileEffects : MonoBehaviour {
         }
     }
 
-    private void ReturnToPool() {
+    protected void ReturnToPool() {
         Pierce = pierce;
         TimeToLive = ttl;
         PoolingSystem.Release(gameObject);

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -100,11 +99,11 @@ public class SlimeBoss : MonoBehaviour {
         Vector3 slamOrigin = gameObject.transform.position + Vector3.down;
         while (yVelo < 0f) {
             foreach (float direction in directions) {
-            GameObject slamProj = projPool.Get();
-            slamProj.transform.position = slamOrigin + Vector3.right * direction * offsetMult;
-            slamProj.GetComponent<Rigidbody2D>().linearVelocityY = -yVelo * SlamYmult;
-            slamProj.GetComponent<ProjectileEffects>().PoolingSystem = projPool;
-            slamProj.GetComponent<ProjectileEffects>().OwnerTag = gameObject.tag;
+                GameObject slamProj = projPool.Get();
+                slamProj.transform.position = slamOrigin + Vector3.right * direction * offsetMult;
+                slamProj.GetComponent<Rigidbody2D>().linearVelocityY = -yVelo * SlamYmult;
+                slamProj.GetComponent<ProjectileEffects>().PoolingSystem = projPool;
+                slamProj.GetComponent<ProjectileEffects>().OwnerTag = gameObject.tag;
             }
             offsetMult++;
             yVelo += SlamYdamp;
