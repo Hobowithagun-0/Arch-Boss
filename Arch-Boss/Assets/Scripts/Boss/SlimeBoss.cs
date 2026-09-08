@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(ProjectilePool))]
-public class SlimeBoss : MonoBehaviour {
+public class SlimeBoss : BossBehaviour {
     private readonly float[] directions = { -1f, 1f };
     private Rigidbody2D body;
     private InputAction jump;
@@ -17,7 +17,6 @@ public class SlimeBoss : MonoBehaviour {
     private Vector2 previousVelo;
     private bool jumped = false;
     private float jumpChargeTime = 0f;
-    private float teleportChargeTime = 0f;
     public float MaxJumpChargeTime = 1f;
     public float ChargeMult = 1f;
     public float JumpHeight = 4f;
@@ -27,7 +26,6 @@ public class SlimeBoss : MonoBehaviour {
     public float SlamYmult = 1f;
     public float SlamYmin = 1f;
     public float SlamDelay = 0.1f;
-    public float TeleportTime = 1f;
     private void Start() {
         body = GetComponent<Rigidbody2D>();
         projPool = GetComponent<ProjectilePool>();
@@ -59,12 +57,12 @@ public class SlimeBoss : MonoBehaviour {
         }
         // teleport charger
         if (special.IsPressed()) {
-            teleportChargeTime += Time.deltaTime;
+            SpecialDelta += Time.deltaTime;
         } else {
-            if (special.WasReleasedThisFrame() && teleportChargeTime >= TeleportTime) {
+            if (special.WasReleasedThisFrame() && SpecialDelta >= SpecialCooldown) {
                 Teleport();
             }
-            teleportChargeTime = 0f;
+            SpecialDelta = 0f;
         }
     }
 
@@ -100,7 +98,7 @@ public class SlimeBoss : MonoBehaviour {
         while (yVelo < 0f) {
             foreach (float direction in directions) {
                 GameObject slamProj = projPool.Get();
-                slamProj.transform.position = slamOrigin + Vector3.right * direction * offsetMult;
+                slamProj.transform.position = slamOrigin + direction * offsetMult * Vector3.right;
                 slamProj.GetComponent<Rigidbody2D>().linearVelocityY = -yVelo * SlamYmult;
                 slamProj.GetComponent<ProjectileEffects>().PoolingSystem = projPool;
                 slamProj.GetComponent<ProjectileEffects>().OwnerTag = gameObject.tag;

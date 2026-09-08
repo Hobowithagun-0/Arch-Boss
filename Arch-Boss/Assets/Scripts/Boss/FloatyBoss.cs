@@ -4,23 +4,19 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(ProjectilePool))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class FloatyBoss : MonoBehaviour {
+public class FloatyBoss : BossBehaviour {
     private readonly float[] directions = { -1f, 1f };
     private Rigidbody2D body;
     private InputAction move;
     private InputAction attack;
     private InputAction special;
     private ProjectilePool projPool;
-    private float attackDelta;
-    private float dashDelta;
     private float rateX;
     private float rateY;
     public float MaxSpeed = 1f;
     public float TimeToMaxSpeed = 1f;
-    public float AttackCooldown = 1f;
     public float ArrowSpeed = 1f;
     public float ArrowSpread = 1f;
-    public float DashCooldown = 1f;
     public float DashSpeed = 1f;
 
     void Start() {
@@ -30,23 +26,20 @@ public class FloatyBoss : MonoBehaviour {
         move = InputSystem.actions.FindAction("Move", true);
         attack = InputSystem.actions.FindAction("Attack", true);
         special = InputSystem.actions.FindAction("Special", true);
-
-        dashDelta = DashCooldown;
-        attackDelta = AttackCooldown;
     }
 
     private void Update() {
-        if (special.WasPressedThisFrame() && dashDelta >= DashCooldown) {
+        if (special.WasPressedThisFrame() && SpecialDelta >= SpecialCooldown) {
             Dash();
-            dashDelta = 0f;
+            SpecialDelta = 0f;
         } else {
-            dashDelta += Time.deltaTime;
+            SpecialDelta += Time.deltaTime;
         }
-        if (attack.WasPressedThisFrame() && attackDelta >= AttackCooldown) {
+        if (attack.WasPressedThisFrame() && AttackDelta >= AttackCooldown) {
             ShootArrows();
-            attackDelta = 0f;
+            AttackDelta = 0f;
         } else {
-            attackDelta += Time.deltaTime;
+            AttackDelta += Time.deltaTime;
         }
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class JohnBoss : BossBehaviour {
-
+    private Vector2 moveInput;
     private Rigidbody2D body;
     public GroundChecker GroundChecker;
 
@@ -68,7 +68,7 @@ public class JohnBoss : BossBehaviour {
         Move(moveInput);
 
     }
-    public override void Attack() {
+    public void Attack() {
         attackTimer += Time.deltaTime;
         if (attackTimer >= WindUpTiming && attackTimer < AttackTiming) {
             AttackHitBox.Show();
@@ -80,7 +80,7 @@ public class JohnBoss : BossBehaviour {
 
         }
     }
-    public override void Move(Vector2 moveInput) {
+    public void Move(Vector2 moveInput) {
         body.linearVelocityX = moveInput.x * MoveSpeed;
         if (GroundChecker.IsGrounded && jumpPressed) {
             body.linearVelocityY = JumpVelocity;
