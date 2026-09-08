@@ -38,7 +38,7 @@ public class ProjectileEffects : MonoBehaviour {
         }
     }
 
-    private void ReturnToPool() {
+    protected void ReturnToPool() {
         Pierce = pierce;
         TimeToLive = ttl;
         PoolingSystem.Release(gameObject);

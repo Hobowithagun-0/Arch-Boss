@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Placeholder
   - SlimeBoss
+  - FloatyBoss
   layers:
   - Default
   - TransparentFX
