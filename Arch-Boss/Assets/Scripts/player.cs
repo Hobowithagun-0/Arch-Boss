@@ -20,10 +20,14 @@ public class Player : MonoBehaviour {
     private Rigidbody2D rigidbody;
     private Collider2D collider;
 
+    //Health variables
+    [SerializeField] private Health health;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
+        health.OnDeath += Die;
 
     }
 
@@ -61,5 +65,19 @@ public class Player : MonoBehaviour {
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Sign(playerTargetDistanceX) * Mathf.Abs(scale.x);
         transform.localScale = scale;
+    }
+
+    private void OnDestroy()
+    {
+        health.OnDeath -= Die;
+    }
+
+    /// <summary>
+    /// A simple die function that gets called when the player's health reaches 0
+    /// </summary>
+    private void Die()
+    {
+        Debug.Log("Enemy died!");
+        Destroy(gameObject);
     }
 }
