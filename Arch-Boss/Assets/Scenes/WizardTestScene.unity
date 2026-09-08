@@ -222,9 +222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ec8ca474819c7498202c4bac68bac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::healthbar
-<<<<<<< HEAD
-  Target: {fileID: 1856321595}
-=======
   Target: {fileID: 208964253}
 --- !u!1 &190750862
 GameObject:
@@ -337,7 +334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c701c99174399c47a8b570e90b62d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
->>>>>>> bcfa8a54d952777dcf919375fabbc25a5d547004
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2858,8 +2854,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
-<<<<<<< HEAD
-=======
 --- !u!1001 &7309352640939740556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2917,7 +2911,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11ac0e34e5db0cf468e24759607f5147, type: 3}
->>>>>>> bcfa8a54d952777dcf919375fabbc25a5d547004
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2927,8 +2920,4 @@ SceneRoots:
   - {fileID: 747100627}
   - {fileID: 108011194}
   - {fileID: 2039735651}
-<<<<<<< HEAD
-  - {fileID: 1066249863}
-=======
   - {fileID: 7309352640939740556}
->>>>>>> bcfa8a54d952777dcf919375fabbc25a5d547004
