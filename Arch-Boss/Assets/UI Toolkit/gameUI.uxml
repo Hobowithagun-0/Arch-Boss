@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI%20Toolkit/gameUI.uss?fileID=7433441132597879392&amp;guid=693b92c49947fae42b2908ebf7f88ec6&amp;type=3#gameUI"/>
     <ui:VisualElement name="HUD" style="flex-grow: 1; height: 100%; width: 100%; position: absolute; top: 0; left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0);">
         <ui:VisualElement name="UpperUI" style="flex-grow: 1; height: 64px; min-height: auto; position: relative;">
-            <ui:ProgressBar value="22" title="Health:" name="healthbar" tooltip="test" style="right: auto; width: 800px; height: 64px; aspect-ratio: auto; scale: 1 1;"/>
+            <ui:ProgressBar value="22" title="Health:" name="BossHealth" tooltip="test" style="right: auto; width: 800px; height: 64px; aspect-ratio: auto; scale: 1 1;"/>
         </ui:VisualElement>
         <ui:VisualElement name="EmptyZone" style="flex-grow: 1; height: 760px;"/>
         <ui:VisualElement name="LowerUI" style="flex-grow: 1; height: 256px; align-items: center; align-self: auto; justify-content: space-around; flex-direction: row;">
@@ -11,11 +11,11 @@
                     <ui:VisualElement name="ButtonOverlay" style="flex-grow: 1; width: 160px; height: 160px; background-color: rgb(0, 0, 0); opacity: 0.5; position: absolute; scale: 1 1; bottom: 0;"/>
                     <ui:Label text="Label" name="ButtonBind" style="transform-origin: center; translate: 0 160px; font-size: 30px; -unity-text-align: upper-center;"/>
                 </ui:Image>
-                <ui:Image name="Button1" source="project://database/Assets/UI%20Toolkit/TestButton.png?fileID=2800000&amp;guid=204baf59f9e03ca4abd4ec95e5cc5937&amp;type=3#TestButton" scale-mode="ScaleToFit" style="scale: 1 1; width: 160px; height: 160px; aspect-ratio: auto;">
+                <ui:Image name="Button2" source="project://database/Assets/UI%20Toolkit/TestButton.png?fileID=2800000&amp;guid=204baf59f9e03ca4abd4ec95e5cc5937&amp;type=3#TestButton" scale-mode="ScaleToFit" style="scale: 1 1; width: 160px; height: 160px; aspect-ratio: auto;">
                     <ui:VisualElement name="ButtonOverlay" style="flex-grow: 1; width: 160px; height: 160px; background-color: rgb(0, 0, 0); opacity: 0.5; position: absolute; scale: 1 1; bottom: 0;"/>
                     <ui:Label text="Label" name="ButtonBind" style="transform-origin: center; translate: 0 160px; font-size: 30px; -unity-text-align: upper-center;"/>
                 </ui:Image>
-                <ui:Image name="Button1" source="project://database/Assets/UI%20Toolkit/TestButton.png?fileID=2800000&amp;guid=204baf59f9e03ca4abd4ec95e5cc5937&amp;type=3#TestButton" scale-mode="ScaleToFit" style="scale: 1 1; width: 160px; height: 160px; aspect-ratio: auto;">
+                <ui:Image name="Button3" source="project://database/Assets/UI%20Toolkit/TestButton.png?fileID=2800000&amp;guid=204baf59f9e03ca4abd4ec95e5cc5937&amp;type=3#TestButton" scale-mode="ScaleToFit" style="scale: 1 1; width: 160px; height: 160px; aspect-ratio: auto;">
                     <ui:VisualElement name="ButtonOverlay" style="flex-grow: 1; width: 160px; height: 160px; background-color: rgb(0, 0, 0); opacity: 0.5; position: absolute; scale: 1 1; bottom: 0;"/>
                     <ui:Label text="Label" name="ButtonBind" style="transform-origin: center; translate: 0 160px; font-size: 30px; -unity-text-align: upper-center;"/>
                 </ui:Image>

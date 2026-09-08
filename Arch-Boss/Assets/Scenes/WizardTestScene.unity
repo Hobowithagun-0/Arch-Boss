@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ec8ca474819c7498202c4bac68bac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::healthbar
-  Target: {fileID: 208964253}
+  target: {fileID: 208964247}
 --- !u!1 &190750862
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,17 +323,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 283731252287349974, guid: 11ac0e34e5db0cf468e24759607f5147, type: 3}
   m_PrefabInstance: {fileID: 7309352640939740556}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &208964253 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5222865780565307100, guid: 11ac0e34e5db0cf468e24759607f5147, type: 3}
-  m_PrefabInstance: {fileID: 7309352640939740556}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 208964247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c701c99174399c47a8b570e90b62d8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,67 +2149,6 @@ Transform:
   - {fileID: 624210210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1066249863
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.86581
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.13354
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3266122298056726608, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3310211276684458777, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: TeleportStun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7842229503794270258, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-      propertyPath: m_Name
-      value: SlimeBoss
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
 --- !u!1 &1499548233
 GameObject:
   m_ObjectHideFlags: 0
@@ -2541,22 +2469,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1 &1856321592 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7842229503794270258, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-  m_PrefabInstance: {fileID: 1066249863}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1856321595 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3400389106442308845, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
-  m_PrefabInstance: {fileID: 1066249863}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856321592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c701c99174399c47a8b570e90b62d8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
 --- !u!1 &2039735646
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,8 +2506,8 @@ MonoBehaviour:
   JumpForce: 7
   GroundChecker: {fileID: 1499548234}
   AtkHitbox: {fileID: 1581064318}
-  Target: {fileID: 1856321592}
-  health: {fileID: 0}
+  Target: {fileID: 208964247}
+  health: {fileID: 2039735652}
 --- !u!212 &2039735648
 SpriteRenderer:
   serializedVersion: 3
@@ -2746,6 +2658,7 @@ Transform:
   - {fileID: 1837174191}
   - {fileID: 2077188317}
   - {fileID: 1581064316}
+  - {fileID: 190750863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2039735652
