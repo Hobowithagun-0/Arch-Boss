@@ -20,7 +20,20 @@
                     <ui:Label text="Label" name="ButtonBind" style="transform-origin: center; translate: 0 160px; font-size: 30px; -unity-text-align: upper-center;"/>
                 </ui:Image>
             </ui:VisualElement>
-            <ui:VisualElement name="PlayerHealth" style="flex-grow: 1; width: 1184px; height: auto;"/>
+            <ui:VisualElement name="PlayerHealth" style="flex-grow: 1; width: 1184px; height: auto; align-items: auto; justify-content: space-evenly; align-self: flex-start;">
+                <ui:VisualElement name="PlayerHealth1" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center; height: auto; min-height: 64px;">
+                    <ui:Image name="PlayerIcon" source="project://database/Assets/UI%20Toolkit/TestButton.png?fileID=2800000&amp;guid=204baf59f9e03ca4abd4ec95e5cc5937&amp;type=3#TestButton" style="width: 64px; height: 64px; justify-content: flex-start; align-self: auto; align-content: flex-start; margin-top: 16px; margin-right: 16px; margin-bottom: 16px; margin-left: 16px;"/>
+                    <ui:ProgressBar value="22" title="Health:" name="HealthBar" tooltip="test" style="right: auto; width: 800px; height: 64px; aspect-ratio: auto; scale: 1 1; flex-direction: column-reverse;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="PlayerHealth2" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center; height: auto; min-height: 64px;">
+                    <ui:Image name="PlayerIcon" source="project://database/Assets/UI%20Toolkit/TestButton.png?fileID=2800000&amp;guid=204baf59f9e03ca4abd4ec95e5cc5937&amp;type=3#TestButton" style="width: 64px; height: 64px; justify-content: flex-start; align-self: auto; align-content: flex-start; margin-top: 16px; margin-right: 16px; margin-bottom: 16px; margin-left: 16px;"/>
+                    <ui:ProgressBar value="22" title="Health:" name="HealthBar" tooltip="test" style="right: auto; width: 800px; height: 64px; aspect-ratio: auto; scale: 1 1; flex-direction: column-reverse;"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="PlayerHealth3" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center; height: auto; min-height: 64px;">
+                    <ui:Image name="PlayerIcon" source="project://database/Assets/UI%20Toolkit/TestButton.png?fileID=2800000&amp;guid=204baf59f9e03ca4abd4ec95e5cc5937&amp;type=3#TestButton" style="width: 64px; height: 64px; justify-content: flex-start; align-self: auto; align-content: flex-start; margin-top: 16px; margin-right: 16px; margin-bottom: 16px; margin-left: 16px;"/>
+                    <ui:ProgressBar value="22" title="Health:" name="HealthBar" tooltip="test" style="right: auto; width: 800px; height: 64px; aspect-ratio: auto; scale: 1 1; flex-direction: column-reverse;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
