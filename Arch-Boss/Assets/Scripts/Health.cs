@@ -7,7 +7,7 @@ public class Health : MonoBehaviour {
     private readonly float[] resistances = new float[System.Enum.GetValues(typeof(DamageType)).Length];
 
     /// <summary> Runs these functions everytime health is changed (for UI mainly) </summary>
-    public event System.Action<int> OnHealthChanged;
+    public event System.Action<Health> OnHealthChanged;
     /// <summary> Runs these functions when health drops below 1 </summary>
     public event System.Action OnDeath;
     public int MaxHealth = 100;
@@ -18,7 +18,7 @@ public class Health : MonoBehaviour {
                 OnDeath?.Invoke();
             }
             health = value;
-            OnHealthChanged?.Invoke(health);
+            OnHealthChanged?.Invoke(this);
         }
     }
     /// <summary> Time before an attack can hit again. <br/> 
