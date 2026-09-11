@@ -27,10 +27,14 @@ public class Player : MonoBehaviour {
     private WaitForSeconds attackDuration;
     private float attackCooldown;
 
+    //Health variables
+    [SerializeField] private Health health;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start() {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
+        health.OnDeath += Die;
 
         attackDuration = new WaitForSeconds(AttackDuration);
     }
@@ -86,5 +90,19 @@ public class Player : MonoBehaviour {
         yield return attackDuration;
         AtkHitbox.SetActive(false);
         playerState = PlayerStates.Approaching;
+    }
+
+    private void OnDestroy()
+    {
+        health.OnDeath -= Die;
+    }
+
+    /// <summary>
+    /// A simple die function that gets called when the player's health reaches 0
+    /// </summary>
+    private void Die()
+    {
+        Debug.Log("Enemy died!");
+        Destroy(gameObject);
     }
 }
