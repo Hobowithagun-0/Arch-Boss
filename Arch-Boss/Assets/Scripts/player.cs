@@ -8,8 +8,9 @@ public class Player : MonoBehaviour {
         Approaching
     }
     // Movement
-    public float MovementSpeed = 2;
-    public float JumpForce = 5;
+    public float MovementSpeed = 2f;
+    public float MaxJumpForce = 5f;
+    public float JumpForceMult = 1f;
     public GroundChecker GroundChecker;
 
     // Attack Hitbox
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour {
     //public float AttackCooldown; // i personally think there shouldnt be one so that the guy can keep slashing away
     public float AttackDuration; // should try to match the animation of the sword swing
     private WaitForSeconds attackDuration;
+    public float AttackCooldown;
     private float attackCooldown;
 
     //Health variables
@@ -56,7 +58,7 @@ public class Player : MonoBehaviour {
                     MoveCloser(playerTargetDistanceX);
                 } else if (playerTargetDistanceY > 1) {
                     if (GroundChecker.IsGrounded) {
-                        rigidbody.linearVelocityY = JumpForce;
+                        rigidbody.linearVelocityY = Mathf.Min(MaxJumpForce, JumpForceMult * playerTargetDistanceY);
                     }
                 } else { 
                     playerState = PlayerStates.Attacking;
@@ -64,7 +66,7 @@ public class Player : MonoBehaviour {
                 break;
             case PlayerStates.Attacking:
                 if (attackCooldown <= 0f) {
-                    attackCooldown = AttackDuration;
+                    attackCooldown = AttackDuration + AttackCooldown;
                     StartCoroutine(Attack());
                 }
                 break;
