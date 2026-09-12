@@ -2,13 +2,11 @@ using UnityEngine;
 
 public class GroundChecker : MonoBehaviour {
     public Vector2 GroundCheckSize = new Vector2(2.0f, 2.0f);
-    public LayerMask GroundLayer;
-
     public bool IsGrounded = false;
 
     // Update is called once per frame
     void Update() {
-        Collider2D collider = Physics2D.OverlapBox(transform.position, GroundCheckSize, 0f, GroundLayer);
+        Collider2D collider = Physics2D.OverlapBox(transform.position, GroundCheckSize, 0f, LayerMask.GetMask("Ground"));
         IsGrounded = (collider != null);
     }
     private void OnDrawGizmos() {

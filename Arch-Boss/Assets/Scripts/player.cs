@@ -1,10 +1,11 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
 
     enum PlayerStates {
-
+        Attacking,
+        Approaching
     }
     // Movement
     public float MovementSpeed = 2;
@@ -12,27 +13,36 @@ public class Player : MonoBehaviour {
     public GroundChecker GroundChecker;
 
     // Attack Hitbox
-    public HitboxCode AtkHitbox;
-
+    public GameObject AtkHitbox;
     public GameObject Target;
 
     // Declare variables
     private Rigidbody2D rigidbody;
     private Collider2D collider;
+    private PlayerStates playerState = PlayerStates.Approaching;
+
+    // Attack Cooldowns
+    //public float AttackCooldown; // i personally think there shouldnt be one so that the guy can keep slashing away
+    public float AttackDuration; // should try to match the animation of the sword swing
+    private WaitForSeconds attackDuration;
+    private float attackCooldown;
 
     //Health variables
     [SerializeField] private Health health;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() {
+    private void Start() {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         health.OnDeath += Die;
 
+        attackDuration = new WaitForSeconds(AttackDuration);
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void Update() {
+        attackCooldown -= Time.deltaTime;
+    }
+    private void FixedUpdate() {
         float playerTargetDistanceX = Target.transform.position.x - transform.position.x;
         float playerTargetDistanceY = Target.transform.position.y - transform.position.y;
 
@@ -40,31 +50,46 @@ public class Player : MonoBehaviour {
         FlipPlayer(playerTargetDistanceX);
 
         // Player Movement AI
-        if (Mathf.Abs(playerTargetDistanceX) > 2) {
-            MoveCloser(playerTargetDistanceX);
-        } else {
-            if (playerTargetDistanceY > 3 && GroundChecker.IsGrounded) // currently jumping many times before isGrounded is false
-            {
-                rigidbody.linearVelocityY = JumpForce;
-            }
+        switch (playerState) {
+            case PlayerStates.Approaching:
+                if (Mathf.Abs(playerTargetDistanceX) > 2) {
+                    MoveCloser(playerTargetDistanceX);
+                } else if (playerTargetDistanceY > 1) {
+                    if (GroundChecker.IsGrounded) {
+                        rigidbody.linearVelocityY = JumpForce;
+                    }
+                } else { 
+                    playerState = PlayerStates.Attacking;
+                }
+                break;
+            case PlayerStates.Attacking:
+                if (attackCooldown <= 0f) {
+                    attackCooldown = AttackDuration;
+                    StartCoroutine(Attack());
+                }
+                break;
         }
-
     }
 
-    private String movingDirection;
-    void MoveCloser(float distance) {
+    private void MoveCloser(float distance) {
         if (distance > 0) {
             rigidbody.linearVelocityX = MovementSpeed;
         } else if (distance < 0) {
             rigidbody.linearVelocityX = -MovementSpeed;
         }
-
     }
 
-    void FlipPlayer(float playerTargetDistanceX) {
+    private void FlipPlayer(float playerTargetDistanceX) {
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Sign(playerTargetDistanceX) * Mathf.Abs(scale.x);
-        transform.localScale = scale;
+        transform.localScale = scale; // if X scale is negative, facing left. Else right
+    }
+
+    private IEnumerator Attack() {
+        AtkHitbox.SetActive(true);
+        yield return attackDuration;
+        AtkHitbox.SetActive(false);
+        playerState = PlayerStates.Approaching;
     }
 
     private void OnDestroy()
