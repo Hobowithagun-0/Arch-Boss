@@ -5,13 +5,18 @@ public class Player : MonoBehaviour {
 
     enum PlayerStates {
         Attacking,
-        Approaching
+        Approaching,
+        Escaping
     }
     // Movement
+    public float MaxSpacing = 2f;
+    public float MinSpacing = 1f;
     public float MovementSpeed = 2f;
+    public float TimeToMaxSpeed = 1f;
     public float MaxJumpForce = 5f;
     public float JumpForceMult = 1f;
     public GroundChecker GroundChecker;
+    private float rateX;
 
     // Attack Hitbox
     public GameObject AtkHitbox;
@@ -23,10 +28,9 @@ public class Player : MonoBehaviour {
     private PlayerStates playerState = PlayerStates.Approaching;
 
     // Attack Cooldowns
-    //public float AttackCooldown; // i personally think there shouldnt be one so that the guy can keep slashing away
     public float AttackDuration; // should try to match the animation of the sword swing
+    public float AttackCooldown; // should not be 0 else sprite bugs out
     private WaitForSeconds attackDuration;
-    public float AttackCooldown;
     private float attackCooldown;
 
     //Health variables
@@ -54,15 +58,22 @@ public class Player : MonoBehaviour {
         // Player Movement AI
         switch (playerState) {
             case PlayerStates.Approaching:
-                if (Mathf.Abs(playerTargetDistanceX) > 2) {
+                if (Mathf.Abs(playerTargetDistanceX) < MinSpacing) { // too close
+                    MoveCloser(-playerTargetDistanceX);
+                } else if (Mathf.Abs(playerTargetDistanceX) > MaxSpacing) { // too far
                     MoveCloser(playerTargetDistanceX);
-                } else if (playerTargetDistanceY > 1) {
-                    if (GroundChecker.IsGrounded) {
-                        rigidbody.linearVelocityY = Mathf.Min(MaxJumpForce, JumpForceMult * playerTargetDistanceY);
+                } else { // perfect distance, start jumping/attacking
+                    StopMoving();
+                    if (playerTargetDistanceY > 1) {
+                        if (GroundChecker.IsGrounded) {
+                            Jump(playerTargetDistanceY);
+                        }
+                    } else {
+                        playerState = PlayerStates.Attacking;
                     }
-                } else { 
-                    playerState = PlayerStates.Attacking;
                 }
+                break;
+            case PlayerStates.Escaping:
                 break;
             case PlayerStates.Attacking:
                 if (attackCooldown <= 0f) {
@@ -73,12 +84,20 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void MoveCloser(float distance) {
-        if (distance > 0) {
-            rigidbody.linearVelocityX = MovementSpeed;
-        } else if (distance < 0) {
-            rigidbody.linearVelocityX = -MovementSpeed;
+    private void MoveCloser(float distance) { // distance to target position. negative means to the left
+        rigidbody.linearVelocityX = Mathf.SmoothDamp(rigidbody.linearVelocity.x, MovementSpeed * Mathf.Sign(distance),
+            ref rateX, TimeToMaxSpeed);
+    }
+
+    private void StopMoving() {
+        rigidbody.linearVelocityX = Mathf.SmoothDamp(rigidbody.linearVelocity.x, 0f, ref rateX, TimeToMaxSpeed);
+    }
+
+    private void Jump(float distance) {
+        if (distance <= 0) {
+            return;
         }
+        rigidbody.linearVelocityY = Mathf.Min(MaxJumpForce, JumpForceMult * distance);
     }
 
     private void FlipPlayer(float playerTargetDistanceX) {
