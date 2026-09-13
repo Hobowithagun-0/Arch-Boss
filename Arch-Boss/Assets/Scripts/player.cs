@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour {
     // Declare variables
     private Rigidbody2D rigidbody;
     private Collider2D collider;
+    public CompositeCollider2D Testing;
     private PlayerStates playerState = PlayerStates.Approaching;
 
     // Attack Cooldowns
@@ -137,5 +140,14 @@ public class Player : MonoBehaviour {
     {
         Debug.Log("Enemy died!");
         Destroy(gameObject);
+    }
+
+    private void OnDrawGizmos() {
+        if (Testing && collider) { 
+            Gizmos.color = Color.red;
+            var testing1 = collider.Distance(Testing);
+
+            Gizmos.DrawLine(testing1.pointA, testing1.pointB);
+        }
     }
 }

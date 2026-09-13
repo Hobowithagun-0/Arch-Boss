@@ -18,6 +18,8 @@ public class FloatyBoss : BossBehaviour {
     public float ArrowSpeed = 1f;
     public float ArrowSpread = 1f;
     public float DashSpeed = 1f;
+    /// <summary> the object that contains the dangerzone for player to avoid </summary>
+    public DangerZone DangerZone;
 
     void Start() {
         body = GetComponent<Rigidbody2D>();
@@ -66,12 +68,19 @@ public class FloatyBoss : BossBehaviour {
                     continue; // discard 1 middle arrow so 5 total
                 }
                 
-                GameObject Arrow = projPool.Get(); // assume all values except speed, position and projpool are set
+                GameObject Arrow = projPool.Get(); // assume all values except speed, position, projpool and dangerzone are set
+                var projEffects = Arrow.GetComponent<ProjectileEffects>();
+                var rb = Arrow.GetComponent<Rigidbody2D>();
                 float angle = Mathf.Atan2(direction.y, direction.x);
+
                 Arrow.transform.position = transform.position;
                 Arrow.transform.rotation = Quaternion.Euler(0f, 0f, angle * Mathf.Rad2Deg + ArrowSpread * side * i);
-                Arrow.GetComponent<Rigidbody2D>().linearVelocity = Arrow.transform.rotation * Vector3.right * ArrowSpeed;
-                Arrow.GetComponent<ProjectileEffects>().PoolingSystem = projPool;
+
+                rb.linearVelocity = Arrow.transform.rotation * Vector3.right * ArrowSpeed;
+                
+                projEffects.PoolingSystem = projPool;
+                projEffects.DangerZoneSystem = DangerZone;
+                projEffects.CreateDangerZone(rb.linearVelocity);
             }
         }
     }
