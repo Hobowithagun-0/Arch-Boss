@@ -9,12 +9,14 @@ public class Player : MonoBehaviour {
         Escaping
     }
     // Movement
-    public float MaxSpacing = 2f;
-    public float MinSpacing = 1f;
+    public float TargetSpacing = 2f;
+    public float MaxTargetSpacingDeviation = 0.5f;
     public float MovementSpeed = 2f;
-    public float TimeToMaxSpeed = 1f;
+    /// <summary> How smoothly the player will approach the target, larger = faster acceleration </summary>
+    public float ApproachDamping = 1f;
+    /// <summary> How far the player tries to go away from the target when escaping </summary>
+    public float EscapeTargetDistance = 100f;
     public float MaxJumpForce = 5f;
-    public float JumpForceMult = 1f;
     public GroundChecker GroundChecker;
     private float rateX;
 
@@ -58,12 +60,11 @@ public class Player : MonoBehaviour {
         // Player Movement AI
         switch (playerState) {
             case PlayerStates.Approaching:
-                if (Mathf.Abs(playerTargetDistanceX) < MinSpacing) { // too close
-                    MoveCloser(-playerTargetDistanceX);
-                } else if (Mathf.Abs(playerTargetDistanceX) > MaxSpacing) { // too far
-                    MoveCloser(playerTargetDistanceX);
+                if (Mathf.Abs(playerTargetDistanceX) < TargetSpacing - MaxTargetSpacingDeviation) { 
+                    MoveAway(playerTargetDistanceX);
+                } else if (Mathf.Abs(playerTargetDistanceX) > TargetSpacing + MaxTargetSpacingDeviation) {
+                    MoveCloser(playerTargetDistanceX, TargetSpacing);
                 } else { // perfect distance, start jumping/attacking
-                    StopMoving();
                     if (playerTargetDistanceY > 1) {
                         if (GroundChecker.IsGrounded) {
                             Jump(playerTargetDistanceY);
@@ -84,20 +85,30 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void MoveCloser(float distance) { // distance to target position. negative means to the left
-        rigidbody.linearVelocityX = Mathf.SmoothDamp(rigidbody.linearVelocity.x, MovementSpeed * Mathf.Sign(distance),
-            ref rateX, TimeToMaxSpeed);
+    private void MoveCloser(float currentDistance, float targetDistance) { // if currentDistance < 0 it means target is left
+        float newX = Mathf.SmoothDamp(rigidbody.position.x, // current position
+                rigidbody.position.x + currentDistance - Mathf.Sign(currentDistance) * targetDistance, // target position
+                ref rateX, ApproachDamping, // time to accelerate to max speed (not really but close enough)
+                MovementSpeed // max speed
+                );
+        rigidbody.linearVelocityX = (newX - rigidbody.position.x) / Time.fixedDeltaTime;  
     }
 
-    private void StopMoving() {
-        rigidbody.linearVelocityX = Mathf.SmoothDamp(rigidbody.linearVelocity.x, 0f, ref rateX, TimeToMaxSpeed);
+    private void MoveAway(float currentDistance) { // if currentDistance < 0 it means target is left
+        float newX = Mathf.SmoothDamp(rigidbody.position.x, // current position
+            rigidbody.position.x - Mathf.Sign(currentDistance) * EscapeTargetDistance, // arbitrary large distance away
+            ref rateX, ApproachDamping, // time to accelerate to max speed (not really but close enough)
+            MovementSpeed // max speed
+            );
+        rigidbody.linearVelocityX = (newX - rigidbody.position.x) / Time.fixedDeltaTime;
     }
 
     private void Jump(float distance) {
         if (distance <= 0) {
             return;
         }
-        rigidbody.linearVelocityY = Mathf.Min(MaxJumpForce, JumpForceMult * distance);
+        rigidbody.linearVelocityY = Mathf.Min(MaxJumpForce, 
+            Mathf.Sqrt(2f * Mathf.Abs(Physics2D.gravity.y * rigidbody.gravityScale) * distance));
     }
 
     private void FlipPlayer(float playerTargetDistanceX) {
