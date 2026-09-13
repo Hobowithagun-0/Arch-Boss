@@ -60,11 +60,12 @@ public class Player : MonoBehaviour {
         // Player Movement AI
         switch (playerState) {
             case PlayerStates.Approaching:
-                if (Mathf.Abs(playerTargetDistanceX) < TargetSpacing - MaxTargetSpacingDeviation) { 
-                    MoveAway(playerTargetDistanceX);
-                } else if (Mathf.Abs(playerTargetDistanceX) > TargetSpacing + MaxTargetSpacingDeviation) {
+                if (Mathf.Abs(playerTargetDistanceX) > TargetSpacing + MaxTargetSpacingDeviation) { // too far
                     MoveCloser(playerTargetDistanceX, TargetSpacing);
-                } else { // perfect distance, start jumping/attacking
+                } else {
+                    if (Mathf.Abs(playerTargetDistanceX) < TargetSpacing - MaxTargetSpacingDeviation) { // too close
+                        MoveAway(playerTargetDistanceX);
+                    }
                     if (playerTargetDistanceY > 1) {
                         if (GroundChecker.IsGrounded) {
                             Jump(playerTargetDistanceY);
@@ -77,6 +78,7 @@ public class Player : MonoBehaviour {
             case PlayerStates.Escaping:
                 break;
             case PlayerStates.Attacking:
+                playerState = PlayerStates.Approaching;
                 if (attackCooldown <= 0f) {
                     attackCooldown = AttackDuration + AttackCooldown;
                     StartCoroutine(Attack());
@@ -121,7 +123,6 @@ public class Player : MonoBehaviour {
         AtkHitbox.SetActive(true);
         yield return attackDuration;
         AtkHitbox.SetActive(false);
-        playerState = PlayerStates.Approaching;
     }
 
     private void OnDestroy()
