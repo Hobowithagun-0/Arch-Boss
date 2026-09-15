@@ -3577,8 +3577,8 @@ GameObject:
   - component: {fileID: 1568325733}
   - component: {fileID: 1568325728}
   - component: {fileID: 1568325734}
-  m_Layer: 0
-  m_Name: DangerZone
+  m_Layer: 3
+  m_Name: SafeZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3630,7 +3630,7 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths: []
-  m_UseDelaunayMesh: 1
+  m_UseDelaunayMesh: 0
 --- !u!4 &1568325729
 Transform:
   m_ObjectHideFlags: 0
@@ -3681,28 +3681,28 @@ CompositeCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
-  m_EdgeRadius: 0.5
+  m_EdgeRadius: 0
   m_ColliderPaths:
   - m_Collider: {fileID: 1568325733}
     m_ColliderPaths:
-    - - X: 130100000
-        Y: 70050000
-      - X: -130100000
-        Y: 70050000
-      - X: -130100000
-        Y: -40050000
-      - X: 130100000
-        Y: -40050000
+    - - X: 125000000
+        Y: 65000000
+      - X: -125000000
+        Y: 65000000
+      - X: -125000000
+        Y: -35000000
+      - X: 125000000
+        Y: -35000000
   - m_Collider: {fileID: 1568325728}
     m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
-    - - {x: 13.009971, y: -4.005}
-      - {x: 13.009971, y: 7.005}
-      - {x: -13.01, y: 7.0049706}
-      - {x: -13.009971, y: -4.005}
+    - - {x: 12.49997, y: -3.5}
+      - {x: 12.49997, y: 6.5}
+      - {x: -12.5, y: 6.499971}
+      - {x: -12.49997, y: -3.5}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -3716,7 +3716,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568325727}
   m_BodyType: 2
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -3778,7 +3778,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 26.02, y: 11.01}
+  m_Size: {x: 25, y: 10}
   m_EdgeRadius: 0
 --- !u!114 &1568325734
 MonoBehaviour:
@@ -3792,6 +3792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6451a8149e83afb47925d43d0eaa5194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  DangerZoneRadius: 0.70710677
 --- !u!1 &1581064315
 GameObject:
   m_ObjectHideFlags: 0
@@ -4179,7 +4180,7 @@ MonoBehaviour:
   GroundChecker: {fileID: 1499548234}
   AtkHitbox: {fileID: 1581064315}
   Target: {fileID: 1733442479}
-  Testing: {fileID: 1568325730}
+  SafeZone: {fileID: 1568325730}
   AttackDuration: 0.375
   AttackCooldown: 0.1
   health: {fileID: 2039735652}
@@ -4314,7 +4315,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!4 &2039735651
 Transform:

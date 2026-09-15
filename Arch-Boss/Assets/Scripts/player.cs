@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
@@ -29,7 +27,7 @@ public class Player : MonoBehaviour {
     // Declare variables
     private Rigidbody2D rigidbody;
     private Collider2D collider;
-    public CompositeCollider2D Testing;
+    public CompositeCollider2D SafeZone;
     private PlayerStates playerState = PlayerStates.Approaching;
 
     // Attack Cooldowns
@@ -54,6 +52,21 @@ public class Player : MonoBehaviour {
         attackCooldown -= Time.deltaTime;
     }
     private void FixedUpdate() {
+
+        if (!SafeZone.OverlapPoint(transform.position)) {
+            var hit = Physics2D.Raycast(transform.position,
+                Vector2.right,
+                Mathf.Infinity,
+                LayerMask.GetMask("Safe Zone"));
+            float dist = hit.distance;
+            var hit2 = Physics2D.Raycast(transform.position,
+                Vector2.left,
+                Mathf.Infinity,
+                LayerMask.GetMask("Safe Zone"));
+            float dist2 = hit2.distance;
+            Debug.Log($"left edge is {dist2} away, right edge is {dist} away");
+        }
+
         float playerTargetDistanceX = Target.transform.position.x - transform.position.x;
         float playerTargetDistanceY = Target.transform.position.y - transform.position.y;
 
@@ -96,7 +109,7 @@ public class Player : MonoBehaviour {
                 ref rateX, ApproachDamping, // time to accelerate to max speed (not really but close enough)
                 MovementSpeed // max speed
                 );
-        rigidbody.linearVelocityX = (newX - rigidbody.position.x) / Time.fixedDeltaTime;  
+        rigidbody.linearVelocityX = (newX - rigidbody.position.x) / Time.fixedDeltaTime;
     }
 
     private void MoveAway(float currentDistance) { // if currentDistance < 0 it means target is left
@@ -112,7 +125,7 @@ public class Player : MonoBehaviour {
         if (distance <= 0) {
             return;
         }
-        rigidbody.linearVelocityY = Mathf.Min(MaxJumpForce, 
+        rigidbody.linearVelocityY = Mathf.Min(MaxJumpForce,
             Mathf.Sqrt(2f * Mathf.Abs(Physics2D.gravity.y * rigidbody.gravityScale) * distance));
     }
 
@@ -128,26 +141,16 @@ public class Player : MonoBehaviour {
         AtkHitbox.SetActive(false);
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         health.OnDeath -= Die;
     }
 
     /// <summary>
     /// A simple die function that gets called when the player's health reaches 0
     /// </summary>
-    private void Die()
-    {
+    private void Die() {
         Debug.Log("Enemy died!");
         Destroy(gameObject);
     }
 
-    private void OnDrawGizmos() {
-        if (Testing && collider) { 
-            Gizmos.color = Color.red;
-            var testing1 = collider.Distance(Testing);
-
-            Gizmos.DrawLine(testing1.pointA, testing1.pointB);
-        }
-    }
 }
