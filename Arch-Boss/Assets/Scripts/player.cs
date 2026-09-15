@@ -52,21 +52,6 @@ public class Player : MonoBehaviour {
         attackCooldown -= Time.deltaTime;
     }
     private void FixedUpdate() {
-
-        if (!SafeZone.OverlapPoint(transform.position)) {
-            var hit = Physics2D.Raycast(transform.position,
-                Vector2.right,
-                Mathf.Infinity,
-                LayerMask.GetMask("Safe Zone"));
-            float dist = hit.distance;
-            var hit2 = Physics2D.Raycast(transform.position,
-                Vector2.left,
-                Mathf.Infinity,
-                LayerMask.GetMask("Safe Zone"));
-            float dist2 = hit2.distance;
-            Debug.Log($"left edge is {dist2} away, right edge is {dist} away");
-        }
-
         float playerTargetDistanceX = Target.transform.position.x - transform.position.x;
         float playerTargetDistanceY = Target.transform.position.y - transform.position.y;
 
@@ -76,6 +61,10 @@ public class Player : MonoBehaviour {
         // Player Movement AI
         switch (playerState) {
             case PlayerStates.Approaching:
+                if (!SafeZone.OverlapPoint(transform.position)) { // NOT in safezone
+                    playerState = PlayerStates.Escaping; 
+                    break;
+                }
                 if (Mathf.Abs(playerTargetDistanceX) > TargetSpacing + MaxTargetSpacingDeviation) { // too far
                     MoveCloser(playerTargetDistanceX, TargetSpacing);
                 } else {
@@ -92,6 +81,25 @@ public class Player : MonoBehaviour {
                 }
                 break;
             case PlayerStates.Escaping:
+                if (SafeZone.OverlapPoint(transform.position)) { // Back in safezone
+                    playerState = PlayerStates.Approaching;
+                    break;
+                }
+                var left = Physics2D.Raycast(transform.position,
+                        Vector2.right,
+                        Mathf.Infinity,
+                        LayerMask.GetMask("Safe Zone"));
+                var right = Physics2D.Raycast(transform.position,
+                    Vector2.left,
+                    Mathf.Infinity,
+                    LayerMask.GetMask("Safe Zone"));
+                if (left.distance > right.distance && right.collider != null) {
+                    MoveCloser(0f, right.distance);
+                } else if (left.collider != null) {
+                    MoveCloser(0f, -left.distance);
+                } else if (GroundChecker.IsGrounded) {
+                    Jump(EscapeTargetDistance); // jump as hard as you can for now idk how code proper jump timings
+                }
                 break;
             case PlayerStates.Attacking:
                 playerState = PlayerStates.Approaching;
@@ -153,4 +161,22 @@ public class Player : MonoBehaviour {
         Destroy(gameObject);
     }
 
+    private void OnDrawGizmos() {
+        if (SafeZone.OverlapPoint(transform.position)) { // Back in safezone
+            return;
+        }
+        var left = Physics2D.Raycast(transform.position,
+                Vector2.right,
+                Mathf.Infinity,
+                LayerMask.GetMask("Safe Zone"));
+        var right = Physics2D.Raycast(transform.position,
+            Vector2.left,
+            Mathf.Infinity,
+            LayerMask.GetMask("Safe Zone"));
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(left.point, 0.1f);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(right.point, 0.1f);
+    }
 }

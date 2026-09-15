@@ -4090,6 +4090,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6200000, guid: 89dfc60ec7ae61648b62ac25a011b954, type: 2}
     - target: {fileID: 8178825554619985749, guid: 11ac0e34e5db0cf468e24759607f5147, type: 3}
+      propertyPath: ArrowSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8178825554619985749, guid: 11ac0e34e5db0cf468e24759607f5147, type: 3}
       propertyPath: DangerZone
       value: 
       objectReference: {fileID: 1568325734}
@@ -4348,7 +4352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c701c99174399c47a8b570e90b62d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  MaxHealth: 2147483647
+  MaxHealth: 100
   InvulnerableDuration: 0.5
 --- !u!1 &2077188316
 GameObject:
