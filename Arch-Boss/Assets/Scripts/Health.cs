@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Health : MonoBehaviour {
-    private int health;
+    public int health;
     private int lastDmgValue = 0;
     private float lastDmgDelta = 0f;
     private readonly float[] resistances = new float[System.Enum.GetValues(typeof(DamageType)).Length];

@@ -8,6 +8,7 @@ TagManager:
   - SlimeBoss
   - FloatyBoss
   - Boss
+  - PlayerSpawn
   layers:
   - Default
   - TransparentFX
