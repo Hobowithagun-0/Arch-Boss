@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.LowLevel;
 using UnityEngine.UIElements;
 
 public class BossHUD : MonoBehaviour {
@@ -22,6 +21,7 @@ public class BossHUD : MonoBehaviour {
         };
         var panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReload);
+        UpdateTarget(); // for unity editor only
     }
 
     private void Update() {

@@ -63,13 +63,13 @@ public class SlimeBoss : BossBehaviour {
             jumpChargeTime = 0f;
         }
         // teleport charger
-        if (special.IsPressed()) {
-            SpecialDelta += Time.deltaTime;
+        if (special.IsPressed()) { // specialDelta decreases here to allow "charging up" button animation
+            SpecialDelta = Mathf.MoveTowards(SpecialDelta, 0f, Time.deltaTime);
         } else {
-            if (special.WasReleasedThisFrame() && SpecialDelta >= SpecialCooldown) {
+            if (special.WasReleasedThisFrame() && SpecialDelta <= 0f) {
                 Teleport();
             }
-            SpecialDelta = 0f;
+            SpecialDelta = SpecialCooldown;
         }
     }
 
@@ -78,7 +78,6 @@ public class SlimeBoss : BossBehaviour {
         float curScale = transform.localScale.x;
         float targetScale = iniScale.x;
         if (curScale < targetScale) {
-            body.simulated = false;
             transform.localScale = iniScale * Mathf.MoveTowards(curScale, targetScale,
                 targetScale * Time.deltaTime / TeleportStun);
             if (iniScale == transform.localScale) {
@@ -135,5 +134,6 @@ public class SlimeBoss : BossBehaviour {
         transform.position = tpTarget;
         transform.localScale = Vector3.zero;
         body.linearVelocity = Vector2.zero;
+        body.simulated = false; // turn off physics simulations (collisions and movement)
     }
 }

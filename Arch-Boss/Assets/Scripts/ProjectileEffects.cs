@@ -15,8 +15,11 @@ public class ProjectileEffects : MonoBehaviour {
     /// <summary> Tag of owner, projectile will not interact with owner tag </summary>
     public string OwnerTag = "Placeholder";
     public ProjectilePool PoolingSystem;
+    /// <summary> Used by projectiles to create a danger zone for player to avoid </summary>
+    public DangerZone DangerZoneSystem;
+    private int dangerZonePath = -1;
 
-    private void OnEnable() { // stores initial values for reset
+    private void OnEnable() { // stores initial values for reset & gets a dangerzone path
         pierce = Pierce;
         ttl = TimeToLive;
     }
@@ -38,9 +41,41 @@ public class ProjectileEffects : MonoBehaviour {
         }
     }
 
+    public void CreateDangerZone(Vector2 velocity) {
+        var boxCollider = GetComponent<BoxCollider2D>();
+        Vector2 halfSize = boxCollider.size / 2f;
+        Vector2 offset = boxCollider.offset;
+
+        Vector2 bottomLeft = boxCollider.transform.TransformPoint(
+            offset + new Vector2(-halfSize.x, -halfSize.y)
+        );
+
+        Vector2 topLeft = boxCollider.transform.TransformPoint(
+            offset + new Vector2(-halfSize.x, halfSize.y)
+        );
+
+        Vector2 topRight = boxCollider.transform.TransformPoint(
+            offset + new Vector2(halfSize.x, halfSize.y)
+        );
+
+        Vector2 bottomRight = boxCollider.transform.TransformPoint(
+            offset + new Vector2(halfSize.x, -halfSize.y)
+        );
+
+        dangerZonePath = DangerZoneSystem.NewPath(new Vector2[4] {
+            bottomLeft,
+            topLeft,
+            topRight + velocity * TimeToLive,
+            bottomRight + velocity * TimeToLive
+        });
+    }
+
     protected void ReturnToPool() {
         Pierce = pierce;
         TimeToLive = ttl;
+        if (dangerZonePath > -1) {
+            DangerZoneSystem.FreePath(dangerZonePath);
+        }
         PoolingSystem.Release(gameObject);
     }
     protected virtual void Interact(HurtboxCode target) {

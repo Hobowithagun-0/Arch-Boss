@@ -3,6 +3,7 @@ using UnityEngine;
 public class Health : MonoBehaviour {
     public int health;
     private int lastDmgValue = 0;
+    /// <summary> Time since last damage was taken </summary>
     private float lastDmgDelta = 0f;
     private readonly float[] resistances = new float[System.Enum.GetValues(typeof(DamageType)).Length];
 
