@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Health : MonoBehaviour {
-    public int health;
+    [SerializeField] private int health; // should NOT be edited in inspector as will not trigger events. Only for viewing
     private int lastDmgValue = 0;
     /// <summary> Time since last damage was taken </summary>
     private float lastDmgDelta = 0f;
@@ -14,7 +14,7 @@ public class Health : MonoBehaviour {
     public int MaxHealth = 100;
     public int Value {
         get => health;
-        private set {
+        set {
             if (value < 1 && health > 0) {
                 OnDeath?.Invoke();
             }
