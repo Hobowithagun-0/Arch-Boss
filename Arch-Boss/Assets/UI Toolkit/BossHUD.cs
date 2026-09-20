@@ -21,7 +21,6 @@ public class BossHUD : MonoBehaviour {
         };
         var panelRenderer = GetComponent<PanelRenderer>();
         panelRenderer.RegisterUIReloadCallback(OnUIReload);
-        UpdateTarget(); // for unity editor only
     }
 
     private void Update() {
@@ -39,6 +38,7 @@ public class BossHUD : MonoBehaviour {
         for (int i = 0; i < playerBar.Length; i++) {
             playerBar[i] = playerHealthBars.Q($"PlayerHealth{i + 1}");
         }
+        UpdateTarget();
         Debug.Log("UI RELOADED");
     }
 
