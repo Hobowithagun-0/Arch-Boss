@@ -3501,6 +3501,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3310211276684458777, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
+      propertyPath: DangerZone
+      value: 
+      objectReference: {fileID: 1568325734}
+    - target: {fileID: 3310211276684458777, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
       propertyPath: TeleportStun
       value: 1
       objectReference: {fileID: 0}
@@ -3792,7 +3796,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6451a8149e83afb47925d43d0eaa5194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  DangerZoneRadius: 0.70710677
+  DangerZoneOffsetX: 0.5
+  DangerZoneOffsetY: 0.5
 --- !u!1 &1581064315
 GameObject:
   m_ObjectHideFlags: 0
