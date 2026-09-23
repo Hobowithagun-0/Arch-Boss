@@ -37,7 +37,6 @@ public static class PolygonExpander {
 
         // small optimizations possible here by caching the calculations for next and using it for prev later
         for (int i = 0; i < points.Length; i++) {
-            Debug.Log($"Point {i + 1}:");
             Vector2 prev = points[Mod(i - 1, points.Length)];
             Vector2 cur = points[i];
             Vector2 next = points[Mod(i + 1, points.Length)];
@@ -50,12 +49,10 @@ public static class PolygonExpander {
             int curIndex = Mod(VectorToQuadrant(prevToCur) + winding, rectOffsets.Length);
             int endIndex = Mod(VectorToQuadrant(curToNext) + winding, rectOffsets.Length);
 
-            Debug.Log($"calculated offsets are {curIndex} and {endIndex}, winding is {winding}");
             if (isConvex) {
                 // add the offsets from cur to end inclusive
                 for (int j = 0; j < rectOffsets.Length; j++) {
                     result.Add(cur + rectOffsets[curIndex]);
-                    Debug.Log($"Added offset {curIndex}");
                     curIndex = Mod(curIndex - winding, rectOffsets.Length);
                     if (curIndex == endIndex) {
                         result.Add(cur + rectOffsets[curIndex]);
@@ -63,7 +60,6 @@ public static class PolygonExpander {
                     }
                 }
             } else { // resolve intersecting offset lines.
-                Debug.Log("Concave detected");
                 Vector2 intersection = GetIntersection(
                     cur + rectOffsets[curIndex], prevToCur,
                     cur + rectOffsets[endIndex], curToNext
