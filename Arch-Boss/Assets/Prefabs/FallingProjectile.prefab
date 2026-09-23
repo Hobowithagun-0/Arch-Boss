@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9011471845367599124}
   - component: {fileID: 5740297677918751129}
   - component: {fileID: 1818530425910711690}
-  - component: {fileID: 1377053476522246444}
+  - component: {fileID: 610101051978707656}
   m_Layer: 8
   m_Name: FallingProjectile
   m_TagString: Untagged
@@ -168,7 +168,7 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1377053476522246444
+--- !u!114 &610101051978707656
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,12 +177,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7445900485017417540}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fb25714d97aeae4cbc596aa70f0d1f2, type: 3}
+  m_Script: {fileID: 11500000, guid: c3f45122e1c3a9147aecbd248c7bb806, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProjectileEffects
+  m_EditorClassIdentifier: Assembly-CSharp::FallingProjectile
   Damage: 10
   Type: 0
   Pierce: -1
   TimeToLive: 2
   OwnerTag: Boss
   PoolingSystem: {fileID: 0}
+  DangerZoneSystem: {fileID: 0}

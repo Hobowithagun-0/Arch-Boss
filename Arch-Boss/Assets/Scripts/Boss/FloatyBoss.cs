@@ -80,7 +80,7 @@ public class FloatyBoss : BossBehaviour {
                 
                 projEffects.PoolingSystem = projPool;
                 projEffects.DangerZoneSystem = DangerZone;
-                projEffects.CreateDangerZone(rb.linearVelocity);
+                projEffects.CreateDangerZone();
             }
         }
     }
