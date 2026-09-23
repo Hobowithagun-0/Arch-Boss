@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ec8ca474819c7498202c4bac68bac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::healthbar
-  target: {fileID: 1733442479}
+  target: {fileID: 1185753368}
   players:
   - {fileID: 2039735652}
 --- !u!1 &519420028
@@ -575,7 +575,7 @@ TilemapRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -3514,13 +3514,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7842229503794270258, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
+--- !u!1 &1185753368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7842229503794270258, guid: ea68d8d8abe674741a6ad7c12a29020f, type: 3}
+  m_PrefabInstance: {fileID: 1066249863}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1499548233
 GameObject:
   m_ObjectHideFlags: 0
@@ -3796,8 +3801,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6451a8149e83afb47925d43d0eaa5194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  DangerZoneOffsetX: 0.5
-  DangerZoneOffsetY: 0.5
+  DangerZoneOffsetX: 0.55
+  DangerZoneOffsetY: 0.55
 --- !u!1 &1581064315
 GameObject:
   m_ObjectHideFlags: 0
@@ -3977,11 +3982,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &1733442479 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 283731252287349974, guid: 11ac0e34e5db0cf468e24759607f5147, type: 3}
-  m_PrefabInstance: {fileID: 1889454770}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1837174190
 GameObject:
   m_ObjectHideFlags: 0
@@ -4088,7 +4088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 283731252287349974, guid: 11ac0e34e5db0cf468e24759607f5147, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7507879881107570019, guid: 11ac0e34e5db0cf468e24759607f5147, type: 3}
       propertyPath: m_Material
@@ -4188,7 +4188,7 @@ MonoBehaviour:
   MaxJumpForce: 10
   GroundChecker: {fileID: 1499548234}
   AtkHitbox: {fileID: 1581064315}
-  Target: {fileID: 1733442479}
+  Target: {fileID: 1185753368}
   SafeZone: {fileID: 1568325730}
   AttackDuration: 0.375
   AttackCooldown: 0.1
