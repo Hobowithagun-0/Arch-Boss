@@ -17,8 +17,8 @@ TagManager:
   - UI
   - Entity
   - Ground
-  - Hit+Hurtbox
-  - 
+  - Hit+Hurtbox(Boss)
+  - Hit+Hurtbox(Player)
   - 
   - 
   - 
