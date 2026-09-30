@@ -85,18 +85,23 @@ public class Player : MonoBehaviour {
                     playerState = PlayerStates.Approaching;
                     break;
                 }
+                // TODO: make some sort of way to detect if there is a collider in the way and not go if so.
                 var left = Physics2D.Raycast(transform.position,
-                        Vector2.right,
+                        Vector2.left,
                         Mathf.Infinity,
                         LayerMask.GetMask("Safe Zone"));
                 var right = Physics2D.Raycast(transform.position,
-                    Vector2.left,
+                    Vector2.right,
                     Mathf.Infinity,
                     LayerMask.GetMask("Safe Zone"));
                 if (left.distance > right.distance && right.collider != null) {
-                    MoveCloser(0f, right.distance);
+                    var danger = Physics2D.Raycast(transform.position,
+                        Vector2.left,
+                        Mathf.Infinity,
+                        LayerMask.GetMask("Safe Zone"));
+                    MoveCloser(0f, -right.distance);
                 } else if (left.collider != null) {
-                    MoveCloser(0f, -left.distance);
+                    MoveCloser(0f, left.distance);
                 } else if (GroundChecker.IsGrounded) {
                     Jump(EscapeTargetDistance); // jump as hard as you can for now idk how code proper jump timings
                 }
@@ -166,11 +171,11 @@ public class Player : MonoBehaviour {
             return;
         }
         var left = Physics2D.Raycast(transform.position,
-                Vector2.right,
+                Vector2.left,
                 Mathf.Infinity,
                 LayerMask.GetMask("Safe Zone"));
         var right = Physics2D.Raycast(transform.position,
-            Vector2.left,
+            Vector2.right,
             Mathf.Infinity,
             LayerMask.GetMask("Safe Zone"));
         Gizmos.color = Color.red;
