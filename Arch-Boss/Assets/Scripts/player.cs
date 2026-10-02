@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
     public float ApproachDamping = 1f;
     /// <summary> How far the player tries to go away from the target when escaping </summary>
     public float EscapeTargetDistance = 100f;
+    public float TargetDistanceInsideSafeZone = 0.001f;
     public float MaxJumpForce = 5f;
     public GroundChecker GroundChecker;
     private float rateX;
@@ -85,26 +86,7 @@ public class Player : MonoBehaviour {
                     playerState = PlayerStates.Approaching;
                     break;
                 }
-                // TODO: make some sort of way to detect if there is a collider in the way and not go if so.
-                var left = Physics2D.Raycast(transform.position,
-                        Vector2.left,
-                        Mathf.Infinity,
-                        LayerMask.GetMask("Safe Zone"));
-                var right = Physics2D.Raycast(transform.position,
-                    Vector2.right,
-                    Mathf.Infinity,
-                    LayerMask.GetMask("Safe Zone"));
-                if (left.distance > right.distance && right.collider != null) {
-                    var danger = Physics2D.Raycast(transform.position,
-                        Vector2.left,
-                        Mathf.Infinity,
-                        LayerMask.GetMask("Safe Zone"));
-                    MoveCloser(0f, -right.distance);
-                } else if (left.collider != null) {
-                    MoveCloser(0f, left.distance);
-                } else if (GroundChecker.IsGrounded) {
-                    Jump(EscapeTargetDistance); // jump as hard as you can for now idk how code proper jump timings
-                }
+                GoToSafeZone(TargetDistanceInsideSafeZone);
                 break;
             case PlayerStates.Attacking:
                 playerState = PlayerStates.Approaching;
@@ -140,6 +122,47 @@ public class Player : MonoBehaviour {
         }
         rigidbody.linearVelocityY = Mathf.Min(MaxJumpForce,
             Mathf.Sqrt(2f * Mathf.Abs(Physics2D.gravity.y * rigidbody.gravityScale) * distance));
+    }
+
+    private void GoToSafeZone(float distanceInside) {
+        // TODO: make some sort of way to detect if there is a collider in the way and not go if so.
+        var left = Physics2D.Raycast(transform.position,
+                Vector2.left,
+                Mathf.Infinity,
+                LayerMask.GetMask("Safe Zone"));
+        var right = Physics2D.Raycast(transform.position,
+            Vector2.right,
+            Mathf.Infinity,
+            LayerMask.GetMask("Safe Zone"));
+
+        var rightDanger = Physics2D.Raycast(transform.position,
+            Vector2.right,
+            Mathf.Infinity,
+            LayerMask.GetMask("Hit+Hurtbox(Boss)"));
+        var leftDanger = Physics2D.Raycast(transform.position,
+            Vector2.left,
+            Mathf.Infinity,
+            LayerMask.GetMask("Hit+Hurtbox(Boss)"));
+
+        bool leftDangerous = false;
+        bool rightDangerous = false;
+        if (rightDanger.collider != null && right.distance > rightDanger.distance) {
+            rightDangerous = true;
+        } else if (leftDanger.collider != null && left.distance > leftDanger.distance) {
+            leftDangerous = true;
+        }
+
+        if (left.distance > right.distance && right.collider != null && !rightDangerous) {
+            // go right
+            MoveCloser(right.distance, -distanceInside);
+        } else if (left.collider != null && !leftDangerous) {
+            MoveCloser(-left.distance, -distanceInside);
+        } else if (GroundChecker.IsGrounded) {
+            if (leftDangerous == false && rightDangerous == false) {
+                Debug.Log("Why tf r u jumping;");
+            }
+            Jump(EscapeTargetDistance); // jump as hard as you can for now idk how code proper jump timings
+        }
     }
 
     private void FlipPlayer(float playerTargetDistanceX) {

@@ -4190,6 +4190,7 @@ MonoBehaviour:
   MovementSpeed: 4
   ApproachDamping: 0.3
   EscapeTargetDistance: 100
+  TargetDistanceInsideSafeZone: 0.1
   MaxJumpForce: 10
   GroundChecker: {fileID: 1499548234}
   AtkHitbox: {fileID: 1581064315}
@@ -4362,7 +4363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c701c99174399c47a8b570e90b62d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  MaxHealth: 100
+  MaxHealth: 500
   InvulnerableDuration: 0.5
 --- !u!1 &2077188316
 GameObject:
