@@ -2,9 +2,11 @@ using UnityEngine;
 
 public abstract class BossBehaviour : MonoBehaviour {
     /// <summary> Time since last attack </summary>
+    [HideInInspector]
     public float AttackDelta;
 
     /// <summary> Time since last special </summary>
+    [HideInInspector]
     public float SpecialDelta;
 
     /// <summary> Time to charge attack </summary>
