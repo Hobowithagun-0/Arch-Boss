@@ -47,6 +47,12 @@ public class Player : MonoBehaviour {
         health.OnDeath += Die;
 
         attackDuration = new WaitForSeconds(AttackDuration);
+
+        GameObject target = GameObject.FindGameObjectWithTag("Boss");
+        if (target != null)
+        {
+            Target = target;
+        }
     }
 
     private void Update() {

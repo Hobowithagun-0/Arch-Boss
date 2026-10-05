@@ -111,13 +111,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98c7a9eab5e2484e8271f04f631193e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatyBoss
+  AttackDelta: 0
+  SpecialDelta: 0
   MaxSpeed: 10
   TimeToMaxSpeed: 0.3
-  AttackCooldown: 5
-  ArrowSpeed: 10
+  ArrowSpeed: 3
   ArrowSpread: 8
-  DashCooldown: 3
   DashSpeed: 18
+  DangerZone: {fileID: 0}
 --- !u!50 &7507879881107570019
 Rigidbody2D:
   serializedVersion: 5
@@ -134,7 +135,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 89dfc60ec7ae61648b62ac25a011b954, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -157,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c701c99174399c47a8b570e90b62d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
+  health: 0
   MaxHealth: 100
   InvulnerableDuration: 0.5
 --- !u!114 &736063321947876721
