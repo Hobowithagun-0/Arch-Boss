@@ -26,6 +26,7 @@ public class BossHUD : MonoBehaviour {
     }
 
     private void Update() {
+        // will throw an error if OnUIReload isnt called yet
         specialButton.style.height = Mathf.RoundToInt(specialButton.resolvedStyle.width * 
             Mathf.Max(1f - targetScript.SpecialDelta / targetScript.SpecialCooldown, 0f));
         attackButton.style.height = Mathf.RoundToInt(attackButton.resolvedStyle.width *

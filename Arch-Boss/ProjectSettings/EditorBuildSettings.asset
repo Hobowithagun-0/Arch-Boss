@@ -11,5 +11,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameManagerCreator.unity
     guid: cf5efb9a6c752114aaf3984b9cb633f9
+  - enabled: 1
+    path: Assets/Scenes/WizardTestScene.unity
+    guid: 2277d5e2b60be0f4fab0e5a9ad788707
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
+    guid: cbba47cc212c6a048a5af5ec9a2508b4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
