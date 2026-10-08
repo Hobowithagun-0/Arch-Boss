@@ -1,10 +1,17 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
+using System;
+using UnityEditor.PackageManager;
 
 public class StartMenu : MonoBehaviour {
 
+    [SerializeField] private VisualTreeAsset settingsUxml;
+    private VisualElement menu;
+    private VisualElement settings;
     private VisualElement fadeOut;
     private float fadeOutOpacity = 0f;
     public float FadeOutTime = 1f;
@@ -15,6 +22,8 @@ public class StartMenu : MonoBehaviour {
     }
 
     private void OnUIReload(PanelRenderer renderer, VisualElement root, int version) {
+        menu = root;
+
         Button start = root.Q<Button>("Start");
         Button binds = root.Q<Button>("Keybinds");
 
@@ -25,11 +34,27 @@ public class StartMenu : MonoBehaviour {
     }
 
     private void StartButton() {
-        Debug.Log(" start Button clicked!");
         StartCoroutine(TransitionTo("WizardTestScene"));
     }
     private void KeybindsButton() {
-        Debug.Log(" binds Button clicked!");
+        if (settings == null) {
+            settings = settingsUxml.Instantiate();
+            settings.style.width = Length.Percent(100);
+            settings.style.height = Length.Percent(100);
+            settings.style.position = Position.Absolute;
+        }
+
+        VisualElement container = settings.Q<VisualElement>("KeybindsMenu");
+
+        menu.Add(settings);
+
+        foreach (InputAction map in InputSystem.actions.FindActionMap("Player")) {
+            Button button = new Button();
+            button.text = map.name;
+
+            container.Add(button);
+        }
+
     }
 
     private IEnumerator TransitionTo(string sceneName) {

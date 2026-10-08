@@ -222,6 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2886426084fe778478a7797cbe8ee0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  settingsUxml: {fileID: 9197481963319205126, guid: e50ad45935b6f0440a9dca2023d156b3, type: 3}
+  FadeOutTime: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
