@@ -2,3 +2,7 @@ Button {
     width: 10%;
     height: 5%;
 }
+
+.Exit {
+    background-color: red;
+}

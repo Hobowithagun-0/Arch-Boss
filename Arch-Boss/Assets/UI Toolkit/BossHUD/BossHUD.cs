@@ -47,7 +47,6 @@ public class BossHUD : MonoBehaviour {
             playerBar[i] = playerHealthBars.Q($"PlayerHealth{i + 1}");
         }
         UpdateTarget();
-        Debug.Log("UI RELOADED");
     }
 
     private void UpdateBossBar(Health hp) {

@@ -3,9 +3,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using UnityEngine.InputSystem;
-using System;
-using UnityEditor.PackageManager;
 
 public class StartMenu : MonoBehaviour {
 
@@ -39,22 +36,18 @@ public class StartMenu : MonoBehaviour {
     private void KeybindsButton() {
         if (settings == null) {
             settings = settingsUxml.Instantiate();
+            
             settings.style.width = Length.Percent(100);
             settings.style.height = Length.Percent(100);
             settings.style.position = Position.Absolute;
-        }
 
-        VisualElement container = settings.Q<VisualElement>("KeybindsMenu");
+            PopulateSettings(settings.Q<VisualElement>("KeybindsMenu"));
+
+            Button exit = settings.Q<Button>("Exit");
+            exit.clicked += () => { settings.RemoveFromHierarchy(); };
+        }
 
         menu.Add(settings);
-
-        foreach (InputAction map in InputSystem.actions.FindActionMap("Player")) {
-            Button button = new Button();
-            button.text = map.name;
-
-            container.Add(button);
-        }
-
     }
 
     private IEnumerator TransitionTo(string sceneName) {
@@ -75,5 +68,54 @@ public class StartMenu : MonoBehaviour {
 
         // Both fading and loading are complete.
         loading.allowSceneActivation = true;
+    }
+
+    private void PopulateSettings(VisualElement container) {
+
+        foreach (InputAction action in InputSystem.actions.FindActionMap("Player")) {
+            for (int i = 0; i < action.bindings.Count; i++) {
+                InputBinding binding = action.bindings[i];
+
+                if (binding.isComposite) { // IGNORE "root" binds, eg "WASD"
+                    continue;
+                }
+
+                Button button = new Button();
+                string name;
+                int bindingIndex = i;
+
+                if (binding.isPartOfComposite) { // stuff like Up Down Left Right (part of WASD)
+                    name = binding.name.ToUpper();
+                } else { // stuff like buttons
+                    name = action.name.ToUpper();
+                }
+
+                button.text = $"{name}: {action.GetBindingDisplayString(bindingIndex)}";
+
+                button.clicked += () => {
+                    button.text = $"{name}: Listening...";
+
+                    action.Disable();
+
+                    action.PerformInteractiveRebinding(bindingIndex)
+                        .WithCancelingThrough("<Keyboard>/escape")
+                        .OnComplete(operation => {
+                            operation.Dispose();
+                            action.Enable();
+
+                            button.text = $"{name}: {action.GetBindingDisplayString(bindingIndex)}";
+                        })
+                        .OnCancel(operation => {
+                            operation.Dispose();
+                            action.Enable();
+
+                            button.text = $"{name}: {action.GetBindingDisplayString(bindingIndex)}";
+                        })
+                        .Start();
+                };
+
+                container.Add(button);
+            }
+        }
     }
 }
