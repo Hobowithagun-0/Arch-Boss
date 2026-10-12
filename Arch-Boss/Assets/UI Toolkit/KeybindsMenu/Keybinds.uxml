@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/KeybindsMenu/Keybinds.uss?fileID=7433441132597879392&amp;guid=936959cc1d460de45ac6858dbc62e0db&amp;type=3#Keybinds"/>
+    <ui:VisualElement name="KeybindsMenu" enabled="true" class="VisualElement" style="border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; width: 80%; height: 80%; translate: 0% 0%; transform-origin: center; top: 10%; left: 10%; justify-content: center; align-self: flex-start; align-content: flex-start; align-items: center; position: relative; min-width: auto; min-height: auto; flex-shrink: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/TempSettings.png?fileID=2800000&amp;guid=48a19897379c9e541a23febe7a35503f&amp;type=3#TempSettings&quot;);">
+        <ui:Button text="X" name="Exit" class="Exit" style="position: absolute; top: 0; right: 0; width: 64px; height: 64px;"/>
+    </ui:VisualElement>
+</ui:UXML>

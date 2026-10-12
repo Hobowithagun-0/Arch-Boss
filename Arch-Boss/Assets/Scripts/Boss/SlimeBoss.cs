@@ -43,7 +43,7 @@ public class SlimeBoss : BossBehaviour {
         iniScale = transform.localScale;
 
         jump = InputSystem.actions.FindAction("Jump", true);
-        move = InputSystem.actions.FindAction("MoveX", true);
+        move = InputSystem.actions.FindAction("Move", true);
         special = InputSystem.actions.FindAction("Special", true);
 
         slamDelay = new WaitForSeconds(SlamDelay);
@@ -100,7 +100,7 @@ public class SlimeBoss : BossBehaviour {
         }
         // can only move in air
         if (!body.IsTouching(groundFilter)) {
-            body.linearVelocityX = move.ReadValue<float>() * MoveSpeed;
+            body.linearVelocityX = move.ReadValue<Vector2>().x * MoveSpeed;
         } else {
             body.linearVelocityX = 0f;        
         }

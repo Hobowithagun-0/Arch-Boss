@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class BossHUD : MonoBehaviour {
-
     [SerializeField] private GameObject target; // only for unity editor to use
     [SerializeField] private Health[] players;
     private Health targetHealth;
@@ -14,6 +13,9 @@ public class BossHUD : MonoBehaviour {
     private Action<Health>[] playerBarUpdaters;
     private VisualElement attackButton;
     private VisualElement specialButton;
+    private VisualElement fadeIn;
+    private float fadeInOpacity = 1f;
+    public float FadeInTime = 1f;
 
     private void Start() {
         playerBarUpdaters = new Action<Health>[] {
@@ -24,13 +26,19 @@ public class BossHUD : MonoBehaviour {
     }
 
     private void Update() {
+        // will throw an error if OnUIReload isnt called yet
         specialButton.style.height = Mathf.RoundToInt(specialButton.resolvedStyle.width * 
-            Mathf.Max(1 - targetScript.SpecialDelta / targetScript.SpecialCooldown, 0f));
+            Mathf.Max(1f - targetScript.SpecialDelta / targetScript.SpecialCooldown, 0f));
         attackButton.style.height = Mathf.RoundToInt(attackButton.resolvedStyle.width *
-            Mathf.Max(1 - targetScript.AttackDelta / targetScript.AttackCooldown, 0f));
+            Mathf.Max(1f - targetScript.AttackDelta / targetScript.AttackCooldown, 0f));
+        if (fadeInOpacity > 0f) {
+            fadeInOpacity -= Time.deltaTime / FadeInTime;
+            fadeIn.style.opacity = Mathf.Max(fadeInOpacity, 0f);
+        }
     }
 
     private void OnUIReload(PanelRenderer renderer, VisualElement root, int version) {
+        fadeIn = root.Q<VisualElement>("FadeIn");
         bossBar = root.Q<ProgressBar>("BossHealth");
         attackButton = root.Q<Image>("Button1").Q("ButtonOverlay");
         specialButton = root.Q<Image>("Button2").Q("ButtonOverlay");
@@ -39,7 +47,6 @@ public class BossHUD : MonoBehaviour {
             playerBar[i] = playerHealthBars.Q($"PlayerHealth{i + 1}");
         }
         UpdateTarget();
-        Debug.Log("UI RELOADED");
     }
 
     private void UpdateBossBar(Health hp) {
